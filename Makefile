@@ -2,14 +2,14 @@
 -include ./configuration/Includes.mk
 
 NAME		=	scop
-CC			=	gcc
+CC			=	c++
 CFLAGS		=	-Wall -Wextra -Werror -I$(INCLUDES_DIR)
-LDFLAGS		=	-lglfw -lGL -lm
-OBJS		=	$(SRCS:.c=.o)
+LDFLAGS		=	-lglfw -lGL -lm -ldl
+OBJS		=	$(SRCS:.cpp=.o)
 OBJS_DIR	=	objects
 OBJS_PATH	=	$(addprefix $(OBJS_DIR)/, $(OBJS))
 
-$(OBJS_DIR)/%.o: %.c
+$(OBJS_DIR)/%.o: %.cpp
 	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) -c $< -o $@ $(LDFLAGS)
 	@printf "\033[2K\r\033[3;35m$<: \033[3;36mloading..\033[0m"

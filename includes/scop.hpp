@@ -1,5 +1,5 @@
-#ifndef SCOP_H
-#define SCOP_H
+#ifndef SCOP_HPP
+#define SCOP_HPP
 
 #include <stdio.h>
 #include <stdlib.h>

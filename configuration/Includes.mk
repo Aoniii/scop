@@ -1,2 +1,2 @@
 INCLUDES_DIR	=	includes
-INCLUDES		=	$(INCLUDES_DIR)/scop.h
+INCLUDES		=	$(INCLUDES_DIR)/scop.hpp
