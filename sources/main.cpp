@@ -2,26 +2,17 @@
 
 int	main(int ac, char **av)
 {
-	GLFWwindow*	window;
+	if (ac != 2)
+		return (1);
 
-	if (!glfwInit())
-		return (1);
-	window = glfwCreateWindow(960, 640, "scop", NULL, NULL);
-	if (!window)
+	Window* window = new Window(av[1], 800, 800);
+
+	if (!window->getWindow())
 	{
-		glfwTerminate();
+		delete window;
 		return (1);
 	}
-	glfwMakeContextCurrent(window);
-	while (!glfwWindowShouldClose(window))
-	{
-		glClear(GL_COLOR_BUFFER_BIT);
-		glfwSwapBuffers(window);
-		glfwPollEvents();
-	}
-	glfwDestroyWindow(window);
-	glfwTerminate();
-	(void) ac;
-	(void) av;
+
+	delete window;
 	return (0);
 }

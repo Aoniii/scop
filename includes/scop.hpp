@@ -3,7 +3,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <GL/glew.h>
+#include <string>
 #include <GLFW/glfw3.h>
+
+#include "Window.hpp"
 
 #endif
