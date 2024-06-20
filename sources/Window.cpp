@@ -11,14 +11,17 @@ Window::~Window()
 Window::Window(const char *title, const unsigned int width, const unsigned int height): width(width), height(height)
 {
 	this->ptr = NULL;
-	if (!glfwInit())
+	if (!glfwInit()) {
+		std::cerr << "[\e[31mERROR\e[39m] GLFW cannot be initialized !" << std::endl;
 		return;
+	}
 	this->ptr = glfwCreateWindow(width, height, title, NULL, NULL);
-	if (!this->getWindow())
+	if (!this->getWindow()) {
+		std::cerr << "[\e[31mERROR\e[39m] Window creation failed !" << std::endl;
 		return;
+	}
 	glfwMakeContextCurrent(this->getWindow());
-	while (!glfwWindowShouldClose(this->getWindow()))
-	{
+	while (!glfwWindowShouldClose(this->getWindow())) {
 		glClear(GL_COLOR_BUFFER_BIT);
 		glfwSwapBuffers(this->getWindow());
 		glfwPollEvents();
