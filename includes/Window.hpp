@@ -12,7 +12,7 @@ class Window {
 	public:
 		Window();
 		~Window();
-		Window(const char *title, const unsigned int width, const unsigned int height);
+		Window(const std::string path, const unsigned int width, const unsigned int height);
 		Window(const Window &window);
 		Window &operator=(const Window &window);
 
