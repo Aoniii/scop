@@ -118,7 +118,8 @@ int parseOBJ(const std::string filename, std::vector<OBJModel*> &models, std::ma
 			std::string mtlFilename;
 			iss >> mtlFilename;
 			std::filesystem::path path(filename);
-			mtlFilename = path.parent_path().string() + "/" + mtlFilename;
+			if (path.parent_path().string().size() > 0)
+				mtlFilename = path.parent_path().string() + "/" + mtlFilename;
 			if (parseMTL(mtlFilename, materials) < 0)
 				return (-1);
 		}
