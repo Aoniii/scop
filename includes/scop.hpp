@@ -57,7 +57,9 @@ struct OBJModel {
 	std::vector<Face> faces;
 };
 
-int	parseOBJ(const std::string filename, std::vector<OBJModel*> &models, std::map<std::string, Material*> &materials);
+int parseMTL(const std::string filename, std::map<std::string, Material*> &materials);
+int parseOBJ(const std::string filename, std::vector<OBJModel*> &models, std::map<std::string, Material*> &materials);
 void clean(std::vector<OBJModel*> &models, std::map<std::string, Material*> &materials);
+bool extensionChecker(const std::string file, const std::string extension);
 
 #endif

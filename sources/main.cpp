@@ -7,6 +7,10 @@ int main(int ac, char **av) {
 	}
 
 	std::string filename(av[1]);
+	if (!extensionChecker(filename, ".obj")) {
+		std::cerr << "[\e[31mERROR\e[39m] The specified file isn't an file.obj" << std::endl;
+		return (1);
+	}
 
 	std::vector<OBJModel*> models;
 	std::map<std::string, Material*> materials;

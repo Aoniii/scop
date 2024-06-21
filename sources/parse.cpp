@@ -120,6 +120,10 @@ int parseOBJ(const std::string filename, std::vector<OBJModel*> &models, std::ma
 			std::filesystem::path path(filename);
 			if (path.parent_path().string().size() > 0)
 				mtlFilename = path.parent_path().string() + "/" + mtlFilename;
+			if (!extensionChecker(mtlFilename, ".mtl")) {
+				std::cerr << "[\e[31mERROR\e[39m] The material file isn't an file.mtl" << std::endl;
+				return (-1);
+			}
 			if (parseMTL(mtlFilename, materials) < 0)
 				return (-1);
 		}
@@ -129,4 +133,10 @@ int parseOBJ(const std::string filename, std::vector<OBJModel*> &models, std::ma
 		models.push_back(currentModel);
 	file.close();
 	return (0);
+}
+
+bool extensionChecker(const std::string file, const std::string extension) {
+	if (extension.size() > file.size())
+        return (false);
+	return (file.compare(file.size() - extension.size(), extension.size(), extension) == 0);
 }
