@@ -26,6 +26,7 @@ int main(int ac, char **av) {
 		return (1);
 	}
 
+	window->draw(models, materials);
 	clean(models, materials);
 	delete window;
 	return (0);
