@@ -67,7 +67,9 @@ int parseMTL(const std::string filename, std::map<std::string, Material*> &mater
 int parseOBJ(const std::string filename, std::vector<OBJModel*> &models, std::map<std::string, Material*> &materials);
 void clean(std::vector<OBJModel*> &models, std::map<std::string, Material*> &materials);
 bool extensionChecker(const std::string file, const std::string extension);
-glm::vec3 calculateCenter(const std::vector<Vertex>& vertices);
-void calculateBoundingBox(const std::vector<OBJModel*>& models, glm::vec3& center, float& maxDimension);
+glm::vec3 calculateCenter(const std::vector<Vertex> &vertices);
+void calculateBoundingBox(const std::vector<OBJModel*> &models, glm::vec3 &center, float &maxDimension);
+void drawPoint(const std::vector<OBJModel*> &models);
+void drawFace(const std::vector<OBJModel*> &models);
 
 #endif

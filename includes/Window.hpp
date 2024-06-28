@@ -15,6 +15,7 @@ class Window {
 		GLFWwindow* ptr;
 		unsigned int width;
 		unsigned int height;
+		unsigned int type = 2;
 		Camera* camera = new Camera();
 
 	public:
@@ -25,8 +26,10 @@ class Window {
 		Window &operator=(const Window &window);
 
 		GLFWwindow*	getWindow() const;
-		void draw(std::vector<OBJModel*> &models, std::map<std::string, Material*> &materials) const;
+		void draw(const std::vector<OBJModel*> &models, const std::map<std::string, Material*> &materials) const;
 		void callback();
+
+		void setType(float f);
 };
 
 #endif

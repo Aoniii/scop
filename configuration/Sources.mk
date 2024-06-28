@@ -5,3 +5,4 @@ SRCS		+=	$(SRCS_DIR)/Camera.cpp
 SRCS		+=	$(SRCS_DIR)/parse.cpp
 SRCS		+=	$(SRCS_DIR)/clean.cpp
 SRCS		+=	$(SRCS_DIR)/math.cpp
+SRCS		+=	$(SRCS_DIR)/draw.cpp

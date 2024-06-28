@@ -46,6 +46,7 @@ Window &Window::operator=(const Window &window) {
 	this->ptr = window.ptr;
 	this->width = window.width;
 	this->height = window.height;
+	this->type = window.type;
 	this->camera = window.camera;
 	return (*this);
 }
@@ -54,7 +55,7 @@ GLFWwindow* Window::getWindow() const {
 	return (this->ptr);
 }
 
-void Window::draw(std::vector<OBJModel*> &models, std::map<std::string, Material*> &materials) const {
+void Window::draw(const std::vector<OBJModel*> &models, const std::map<std::string, Material*> &materials) const {
 	(void) materials;
 	this->camera->initCoord(models);
 	while (!glfwWindowShouldClose(this->getWindow())) {
@@ -77,49 +78,13 @@ void Window::draw(std::vector<OBJModel*> &models, std::map<std::string, Material
 		model = glm::translate(model, -center);
 		glm::mat4 mvp = projection * view * model;
 
-		/*glBegin(GL_POINTS);
-		glColor3f (1.0f, 1.0f, 1.0f);
-
-		for (OBJModel* obj : models) {
-			for (Vertex vertex : obj->vertices) {
-				glm::vec4 pos = glm::vec4(vertex.x, vertex.y, vertex.z, vertex.w);
-				pos = mvp * pos;
-				glVertex4f(pos.x, pos.y, pos.z, pos.w);
-			}
-		}
-
-		glEnd();*/
-
 		glMatrixMode(GL_MODELVIEW);
-		glLoadMatrixf(&mvp[0][0]);
+    	glLoadMatrixf(&mvp[0][0]);
 
-		glBegin(GL_TRIANGLES);
-		glColor3f(1.0f, 1.0f, 1.0f);
-
-		for (const OBJModel* obj : models) {
-			for (const Face& face : obj->faces) {
-				for (size_t i = 0; i < face.vertexIndices.size(); ++i) {
-					int vertexIndex = face.vertexIndices[i];
-					const Vertex& vertex = obj->vertices[vertexIndex];
-
-					if (!face.normalIndices.empty()) {
-						int normalIndex = face.normalIndices[i];
-						const Normal& normal = obj->normals[normalIndex];
-						glNormal3f(normal.i, normal.j, normal.k);
-					}
-
-					if (!face.textureIndices.empty()) {
-						int textureIndex = face.textureIndices[i];
-						const TextureCoord& texCoord = obj->textureCoords[textureIndex];
-						glTexCoord2f(texCoord.u, texCoord.v);
-					}
-
-					glVertex3f(vertex.x, vertex.y, vertex.z);
-				}
-			}
-		}
-
-		glEnd();
+		if (type == 1)
+			drawPoint(models);
+		else if (type == 2)
+			drawFace(models);
 
 		glfwSwapBuffers(this->getWindow());
 		glfwPollEvents();
@@ -157,8 +122,18 @@ void Window::callback() {
 					case GLFW_KEY_E:
 						win->camera->addAngleZ(ANGLE);
 						break;
+					case GLFW_KEY_1:
+						win->setType(1);
+						break;
+					case GLFW_KEY_2:
+						win->setType(2);
+						break;
 				}
 	   		}
 		}
 	);
+}
+
+void Window::setType(float f) {
+	this->type = f;
 }

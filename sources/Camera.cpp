@@ -15,6 +15,8 @@ Camera &Camera::operator=(const Camera &camera) {
 	this->angleX = camera.angleX;
 	this->angleY = camera.angleY;
 	this->angleZ = camera.angleZ;
+	this->yaw = camera.yaw;
+	this->pitch = camera.pitch;
 	return (*this);
 }
 
