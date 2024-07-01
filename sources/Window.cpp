@@ -35,6 +35,14 @@ Window::Window(const std::string path, const unsigned int width, const unsigned 
 		return;
 	}
 	glfwMakeContextCurrent(this->getWindow());
+
+	glewExperimental = GL_TRUE;
+	if (glewInit() != GLEW_OK) {
+		std::cerr << "[\e[31mERROR\e[39m] GLEW cannot be initialized !" << std::endl;
+		return;
+	}
+	this->shader = new Shader("sources/shader/vertex_shader.glsl", "sources/shader/fragment_shader.glsl");
+
 	callback();
 }
 
@@ -48,6 +56,7 @@ Window &Window::operator=(const Window &window) {
 	this->height = window.height;
 	this->type = window.type;
 	this->camera = window.camera;
+	this->shader = window.shader;
 	return (*this);
 }
 
@@ -56,12 +65,10 @@ GLFWwindow* Window::getWindow() const {
 }
 
 void Window::draw(const std::vector<OBJModel*> &models, const std::map<std::string, Material*> &materials) const {
-	(void) materials;
 	this->camera->initCoord(models);
 	while (!glfwWindowShouldClose(this->getWindow())) {
-		glClear(GL_COLOR_BUFFER_BIT);
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		glPointSize(2);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
 		glm::mat4 view = this->camera->getView();
 		glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
@@ -84,7 +91,7 @@ void Window::draw(const std::vector<OBJModel*> &models, const std::map<std::stri
 		if (type == 1)
 			drawPoint(models);
 		else if (type == 2)
-			drawFace(models);
+			drawFace(models, materials);
 
 		glfwSwapBuffers(this->getWindow());
 		glfwPollEvents();

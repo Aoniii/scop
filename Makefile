@@ -4,7 +4,7 @@
 NAME		=	scop
 CC			=	c++
 CFLAGS		=	-Wall -Wextra -Werror -I$(INCLUDES_DIR)
-LDFLAGS		=	-lglfw -lGL -lm -ldl
+LDFLAGS		=	-lGL -lGLU -lglut -lGLEW -lglfw
 OBJS		=	$(SRCS:.cpp=.o)
 OBJS_DIR	=	objects
 OBJS_PATH	=	$(addprefix $(OBJS_DIR)/, $(OBJS))

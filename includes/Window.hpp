@@ -5,6 +5,7 @@
 #include <map>
 #include <GLFW/glfw3.h>
 #include "Camera.hpp"
+#include "Shader.hpp"
 
 struct Material;
 
@@ -17,6 +18,7 @@ class Window {
 		unsigned int height;
 		unsigned int type = 2;
 		Camera* camera = new Camera();
+		Shader* shader = NULL;
 
 	public:
 		Window();

@@ -8,12 +8,14 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "Window.hpp"
 #include "Camera.hpp"
+#include "Shader.hpp"
 
 #define ANGLE 0.5f
 
@@ -70,6 +72,6 @@ bool extensionChecker(const std::string file, const std::string extension);
 glm::vec3 calculateCenter(const std::vector<Vertex> &vertices);
 void calculateBoundingBox(const std::vector<OBJModel*> &models, glm::vec3 &center, float &maxDimension);
 void drawPoint(const std::vector<OBJModel*> &models);
-void drawFace(const std::vector<OBJModel*> &models);
+void drawFace(const std::vector<OBJModel*> &models, const std::map<std::string, Material*> &materials);
 
 #endif
