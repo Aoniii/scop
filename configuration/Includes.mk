@@ -4,3 +4,4 @@ INCLUDES		+=	$(INCLUDES_DIR)/objects/Vertex.hpp
 INCLUDES		+=	$(INCLUDES_DIR)/objects/TextureCoord.hpp
 INCLUDES		+=	$(INCLUDES_DIR)/objects/Normal.hpp
 INCLUDES		+=	$(INCLUDES_DIR)/objects/Face.hpp
+INCLUDES		+=	$(INCLUDES_DIR)/objects/Material.hpp
