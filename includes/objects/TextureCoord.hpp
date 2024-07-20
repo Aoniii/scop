@@ -24,6 +24,6 @@ class TextureCoord {
 		void setU(float u);
 		void setV(float v);
 		void setW(float w);
-}
+};
 
 #endif

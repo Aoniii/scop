@@ -5,5 +5,6 @@
 #include <string>
 #include "Vertex.hpp"
 #include "TextureCoord.hpp"
+#include "Normal.hpp"
 
 #endif

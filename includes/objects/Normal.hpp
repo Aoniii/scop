@@ -22,6 +22,6 @@ class Normal {
 		void setI(float i);
 		void setJ(float j);
 		void setK(float k);
-}
+};
 
 #endif

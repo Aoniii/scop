@@ -3,7 +3,7 @@
 
 NAME		=	scop
 CC			=	c++
-CFLAGS		=	-Wall -Wextra -Werror -I$(INCLUDES_DIR)
+CFLAGS		=	-Wall -Wextra -Werror -I$(INCLUDES_DIR) -I$(INCLUDES_DIR)/objects
 LDFLAGS		=	-lGL -lGLU -lglut -lGLEW -lglfw
 OBJS		=	$(SRCS:.cpp=.o)
 OBJS_DIR	=	objects

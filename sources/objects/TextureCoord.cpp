@@ -26,7 +26,7 @@ float TextureCoord::getU() const {
 }
 
 float TextureCoord::getV() const {
-	return (this->V);
+	return (this->v);
 }
 
 float TextureCoord::getW() const {

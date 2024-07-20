@@ -26,6 +26,6 @@ class Vertex {
 		void setY(float y);
 		void setZ(float z);
 		void setW(float w);
-}
+};
 
 #endif
