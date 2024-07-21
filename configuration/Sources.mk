@@ -5,3 +5,5 @@ SRCS		+=	$(SRCS_DIR)/objects/TextureCoord.cpp
 SRCS		+=	$(SRCS_DIR)/objects/Normal.cpp
 SRCS		+=	$(SRCS_DIR)/objects/Face.cpp
 SRCS		+=	$(SRCS_DIR)/objects/Material.cpp
+SRCS		+=	$(SRCS_DIR)/objects/Object.cpp
+SRCS		+=	$(SRCS_DIR)/objects/Program.cpp
