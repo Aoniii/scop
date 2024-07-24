@@ -2,6 +2,9 @@
 #define SCOP_HPP
 
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <filesystem>
 #include <string>
 #include "Vertex.hpp"
 #include "TextureCoord.hpp"
@@ -12,5 +15,6 @@
 #include "Program.hpp"
 
 Program *parse(const std::string filename);
+void parsingChecker(Program *program);
 
 #endif

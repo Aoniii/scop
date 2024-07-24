@@ -33,6 +33,11 @@ class Object {
 		void setTextures(std::vector<TextureCoord> textures);
 		void setNormals(std::vector<Normal> normals);
 		void setFaces(std::vector<Face> faces);
+
+		void addVertex(Vertex v);
+		void addTexture(TextureCoord t);
+		void addNormal(Normal n);
+		void addFace(Face f);
 };
 
 #endif

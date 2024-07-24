@@ -55,3 +55,19 @@ void Object::setNormals(std::vector<Normal> normals) {
 void Object::setFaces(std::vector<Face> faces) {
 	this->faces = faces;
 }
+
+void Object::addVertex(Vertex v) {
+	this->vertices.push_back(v);
+}
+
+void Object::addTexture(TextureCoord t) {
+	this->textures.push_back(t);
+}
+
+void Object::addNormal(Normal n) {
+	this->normals.push_back(n);
+}
+
+void Object::addFace(Face f) {
+	this->faces.push_back(f);
+}

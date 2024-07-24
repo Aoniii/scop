@@ -1,6 +1,6 @@
 #include "Face.hpp"
 
-Face::Face(): vertexIndices(), textureIndices(), normalIndices(), materialName(""), smoothing(false) {}
+Face::Face(): vertexIndices(), textureIndices(), normalIndices(), materialName(""), smoothing(0) {}
 
 Face::~Face() {}
 
@@ -17,7 +17,7 @@ Face &Face::operator=(const Face &face) {
 	return (*this);
 }
 
-Face::Face(std::vector<int> vertexIndices, std::vector<int> textureIndices, std::vector<int> normalIndices, std::string materialName, bool smoothing):
+Face::Face(std::vector<int> vertexIndices, std::vector<int> textureIndices, std::vector<int> normalIndices, std::string materialName, int smoothing):
 	vertexIndices(vertexIndices), textureIndices(textureIndices), normalIndices(normalIndices), materialName(materialName), smoothing(smoothing) {}
 
 std::vector<int> Face::getVertexIndices() const {
@@ -36,7 +36,7 @@ std::string Face::getMaterialName() const {
 	return (this->materialName);
 }
 
-bool Face::isSmoothing() const {
+int Face::getSmoothing() const {
 	return (this->smoothing);
 }
 
@@ -56,6 +56,6 @@ void Face::setMaterialName(std::string s) {
 	this->materialName = s;
 }
 
-void Face::setSmoothing(bool b) {
-	this->smoothing = b;
+void Face::setSmoothing(int i) {
+	this->smoothing = i;
 }

@@ -22,6 +22,7 @@ all: $(NAME)
 
 clean:
 	@rm -rf $(OBJS_DIR)
+	@rm -rf parsingChecker
 	@printf "\033[2K\r\033[4;34m$(NAME):\033[0m \033[1;31mObject Delete \033[1;32m[√]\033[0m\n"
 
 fclean: clean
