@@ -34,10 +34,13 @@ Program *parse(const std::string filename) {
 			if (i != std::string::npos)
 				path = filename.substr(0, i + 1);
 			parseMTL(path + mtl, program);
-		} else if (command[0] && command[0] != '#' && command[0] != ' ' && object == NULL) {
-			std::cerr << "[\e[31mERROR\e[39m] File OBJ contains an error !" << std::endl;
-			exit(1);
-		} else if (command == "v") {
+		}  else if (object == NULL) {
+			object = new Object();
+			object->setName("NoName");
+			program->addObject(object);
+		}
+
+		if (command == "v") {
 			float x = 0, y = 0, z = 0, w = 0;
 			iss >> x >> y >> z >> w;
 			if (w != 0)
@@ -91,6 +94,9 @@ Program *parse(const std::string filename) {
 				smoothing = 0;
 			else
 				smoothing = std::stoi(s);
+		} else if (command[0] && command[0] != '#' && command[0] != ' ') {
+			std::cerr << "[\e[31mERROR\e[39m] File OBJ contains an error !" << std::endl;
+			exit(1);
 		}
 	}
 
@@ -118,7 +124,7 @@ void parseMTL(std::string filename, Program *program) {
 			material = new Material();
 			material->setName(name);
 			program->addMaterial(material);
-		} else if (command[0] && command[0] != '#' && command[0] != ' ' && material == NULL) {
+		} else if (material == NULL) {
 			std::cerr << "[\e[31mERROR\e[39m] File MTL contains an error !" << std::endl;
 			exit(1);
 		} else if (command == "Ka") {
@@ -149,6 +155,9 @@ void parseMTL(std::string filename, Program *program) {
 			int i = 0;
 			iss >> i;
 			material->setIllum(i);
+		} else if (command[0] && command[0] != '#' && command[0] != ' ') {
+			std::cerr << "[\e[31mERROR\e[39m] File MTL contains an error !" << std::endl;
+			exit(1);
 		}
 	}
 

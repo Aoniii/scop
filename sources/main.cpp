@@ -13,10 +13,12 @@ int main(int ac, char** av) {
 	}
 
 	Program *program = parse(filename);
-	if (std::string(av[2]) == "PARSING") {
+	if (ac == 3 && std::string(av[2]) == "PARSING") {
 		parsingChecker(program);
 		return (0);
 	}
 
+	program->setWindow(new Window(program->getName(), 800, 800));
+	program->getWindow()->draw(program);
 	return (0);
 }
