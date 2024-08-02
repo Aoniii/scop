@@ -8,3 +8,4 @@ INCLUDES		+=	$(INCLUDES_DIR)/objects/Material.hpp
 INCLUDES		+=	$(INCLUDES_DIR)/objects/Object.hpp
 INCLUDES		+=	$(INCLUDES_DIR)/objects/Program.hpp
 INCLUDES		+=	$(INCLUDES_DIR)/objects/Window.hpp
+INCLUDES		+=	$(INCLUDES_DIR)/objects/Camera.hpp

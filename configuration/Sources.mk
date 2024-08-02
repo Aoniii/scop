@@ -9,3 +9,5 @@ SRCS		+=	$(SRCS_DIR)/objects/Object.cpp
 SRCS		+=	$(SRCS_DIR)/objects/Program.cpp
 SRCS		+=	$(SRCS_DIR)/parsing.cpp
 SRCS		+=	$(SRCS_DIR)/objects/Window.cpp
+SRCS		+=	$(SRCS_DIR)/draw.cpp
+SRCS		+=	$(SRCS_DIR)/objects/Camera.cpp

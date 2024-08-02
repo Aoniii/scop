@@ -15,6 +15,7 @@ Window::Window(std::string title, const unsigned int width, const unsigned int h
 	}
 
 	this->ptr = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+	this->camera = new Camera();
 	if (!this->getWindow()) {
 		std::cerr << "[\e[31mERROR\e[39m] Window creation failed !" << std::endl;
 		exit(1);
@@ -34,6 +35,7 @@ Window::Window(const Window &window) {
 
 Window &Window::operator=(const Window &window) {
 	this->ptr = window.ptr;
+	this->camera = window.camera;
 	this->width = window.width;
 	this->height = window.height;
 	return (*this);
@@ -43,8 +45,15 @@ GLFWwindow* Window::getWindow() const {
 	return (this->ptr);
 }
 
+Camera Window::getCamera() const {
+	return (this->camera);
+}
+
 void Window::draw(Program *program) const {
-	(void) program;
 	while (!glfwWindowShouldClose(this->getWindow())) {
+		drawPoint(program);
+
+		glfwSwapBuffers(this->getWindow());
+		glfwPollEvents();
 	}
 }

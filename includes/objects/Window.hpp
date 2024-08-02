@@ -6,9 +6,12 @@
 
 class Program;
 
+class Camera;
+
 class Window {
 	private:
 		GLFWwindow *ptr;
+		Camera *camera;
 		unsigned int width;
 		unsigned int height;
 
@@ -20,6 +23,7 @@ class Window {
 		Window &operator=(const Window &window);
 
 		GLFWwindow*	getWindow() const;
+		Camera getCamera() const;
 
 		void draw(Program *program) const;
 };

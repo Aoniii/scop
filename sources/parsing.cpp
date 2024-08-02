@@ -27,19 +27,26 @@ Program *parse(const std::string filename) {
 			object = new Object();
 			object->setName(name);
 			program->addObject(object);
-		}  else if (command == "mtllib") {
+		} else if (command == "mtllib") {
 			std::string path = "", mtl;
 			iss >> mtl;
 			size_t i = filename.find_last_of('/');
 			if (i != std::string::npos)
 				path = filename.substr(0, i + 1);
 			parseMTL(path + mtl, program);
-		}  else if (object == NULL) {
-			object = new Object();
-			object->setName("NoName");
-			program->addObject(object);
+		} else if (command[0] && command[0] != '#' && command[0] != ' ') {
+			if (command == "v" || command == "vt" || command == "vn" || command == "f" || command == "usemtl" || command == "s") {
+				if (object == NULL) {
+					object = new Object();
+					object->setName("Unnamed");
+					program->addObject(object);
+				}
+			} else {
+				std::cerr << "[\e[31mERROR\e[39m] File OBJ contains an error !" << std::endl;
+				exit(1);
+			}
 		}
-
+		
 		if (command == "v") {
 			float x = 0, y = 0, z = 0, w = 0;
 			iss >> x >> y >> z >> w;
@@ -94,9 +101,6 @@ Program *parse(const std::string filename) {
 				smoothing = 0;
 			else
 				smoothing = std::stoi(s);
-		} else if (command[0] && command[0] != '#' && command[0] != ' ') {
-			std::cerr << "[\e[31mERROR\e[39m] File OBJ contains an error !" << std::endl;
-			exit(1);
 		}
 	}
 
@@ -124,7 +128,7 @@ void parseMTL(std::string filename, Program *program) {
 			material = new Material();
 			material->setName(name);
 			program->addMaterial(material);
-		} else if (material == NULL) {
+		} else if (command[0] && command[0] != '#' && command[0] != ' ' && material == NULL) {
 			std::cerr << "[\e[31mERROR\e[39m] File MTL contains an error !" << std::endl;
 			exit(1);
 		} else if (command == "Ka") {
@@ -155,9 +159,6 @@ void parseMTL(std::string filename, Program *program) {
 			int i = 0;
 			iss >> i;
 			material->setIllum(i);
-		} else if (command[0] && command[0] != '#' && command[0] != ' ') {
-			std::cerr << "[\e[31mERROR\e[39m] File MTL contains an error !" << std::endl;
-			exit(1);
 		}
 	}
 
