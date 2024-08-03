@@ -23,7 +23,7 @@ class Window {
 		Window &operator=(const Window &window);
 
 		GLFWwindow*	getWindow() const;
-		Camera getCamera() const;
+		Camera* getCamera();
 
 		void draw(Program *program) const;
 };

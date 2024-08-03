@@ -19,6 +19,7 @@
 #include "Object.hpp"
 #include "Program.hpp"
 #include "Window.hpp"
+#include "Camera.hpp"
 
 Program *parse(const std::string filename);
 void parsingChecker(Program *program);

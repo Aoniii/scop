@@ -1,6 +1,6 @@
 #include "scop.hpp"
 
-Window::Window(): ptr(NULL), width(0), height(0) {}
+Window::Window(): ptr(NULL), camera(NULL), width(0), height(0) {}
 
 Window::~Window() {
 	glfwDestroyWindow(this->ptr);
@@ -15,11 +15,12 @@ Window::Window(std::string title, const unsigned int width, const unsigned int h
 	}
 
 	this->ptr = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
-	this->camera = new Camera();
 	if (!this->getWindow()) {
 		std::cerr << "[\e[31mERROR\e[39m] Window creation failed !" << std::endl;
 		exit(1);
 	}
+
+	this->camera = new Camera();
 	glfwMakeContextCurrent(this->getWindow());
 
 	glewExperimental = GL_TRUE;
@@ -45,12 +46,15 @@ GLFWwindow* Window::getWindow() const {
 	return (this->ptr);
 }
 
-Camera Window::getCamera() const {
+Camera* Window::getCamera() {
 	return (this->camera);
 }
 
 void Window::draw(Program *program) const {
 	while (!glfwWindowShouldClose(this->getWindow())) {
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+
 		drawPoint(program);
 
 		glfwSwapBuffers(this->getWindow());
