@@ -44,7 +44,6 @@ class Camera {
 
 		glm::mat4 getViewMatrix();
 		void updateCameraVectors();
-		void initPos(Program *program);
 };
 
 #endif

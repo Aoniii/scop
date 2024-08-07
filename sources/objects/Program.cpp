@@ -61,3 +61,18 @@ void Program::addObject(Object *object) {
 void Program::addMaterial(Material *material) {
 	this->materials.push_back(material);
 }
+
+glm::vec3 Program::calculateCenter() const {
+	glm::vec3 center(0.0f);
+	float f = 0;
+
+	for (Object *objects : this->objects) {
+		for (Vertex vertex : objects->getVertices()) {
+			center += glm::vec3(vertex.getX(), vertex.getY(), vertex.getZ());
+			f++;
+		}
+	}
+	center /= f;
+
+	return (center);
+}

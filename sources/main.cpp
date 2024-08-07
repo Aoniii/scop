@@ -19,7 +19,6 @@ int main(int ac, char** av) {
 	}
 
 	program->setWindow(new Window(program->getName(), 800, 800));
-	program->getWindow()->getCamera()->initPos(program);
 	program->getWindow()->draw(program);
 	return (0);
 }

@@ -4,6 +4,9 @@
 #include "Object.hpp"
 #include "Material.hpp"
 #include "Window.hpp"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class Program {
 	private:
@@ -31,6 +34,8 @@ class Program {
 		void setFile(std::string filename);
 		void addObject(Object *object);
 		void addMaterial(Material *material);
+
+		glm::vec3 calculateCenter() const;
 };
 
 #endif

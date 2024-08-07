@@ -99,35 +99,3 @@ void Camera::updateCameraVectors() {
 	this->right = glm::normalize(glm::cross(this->front, this->worldUp));
 	this->up = glm::normalize(glm::cross(this->right, this->front));
 }
-
-void Camera::initPos(Program *program) {
-	bool first = true;
-	float maxX, minX, maxY, minY, maxZ, minZ;
-
-	for (Object* objects : program->getObjects()) {
-		for (Vertex vertex : objects->getVertices()) {
-			if (first) {
-				maxX = minX = vertex.getX();
-				maxY = minY = vertex.getY();
-				maxZ = minZ = vertex.getZ();
-				first = false;
-				continue;
-			}
-
-			if (vertex.getX() > maxX)
-				maxX = vertex.getX();
-			if (vertex.getX() < minX)
-				minX = vertex.getX();
-			if (vertex.getY() > maxY)
-				maxY = vertex.getY();
-			if (vertex.getY() < minY)
-				minY = vertex.getY();
-			if (vertex.getZ() > maxZ)
-				maxZ = vertex.getZ();
-			if (vertex.getZ() < minZ)
-				minZ = vertex.getZ();
-		}
-	}
-
-	this->pos = glm::vec3((minX + maxX) / 2.0f, (maxY + maxY) / 2.0f, ((minZ + maxZ) / 2.0f) + (minX - maxX));
-}
