@@ -116,7 +116,7 @@ void Camera::initCoord(std::vector<Object*> objects) {
 	float maxDimension;
 	calculateBoundingBox(objects, center, maxDimension);
 
-	this->pos.x = center.x - maxDimension * 1.5f;;
+	this->pos.x = center.x + maxDimension * 1.5f;;
 	this->pos.y = center.y;
 	this->pos.z = center.z;
 	updateCameraVectors();
