@@ -14,9 +14,8 @@ class Camera {
 		glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 		glm::vec3 right = glm::vec3(0.0f, 0.0f, 0.0f);
 		glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
-		float yaw = -90.0f;
+		float yaw = 0.0f;
 		float pitch = 0.0f;
-		float zoom = 45.0f;
 
 	public:
 		Camera();
@@ -31,7 +30,6 @@ class Camera {
 		glm::vec3 getWorldUp() const;
 		float getYaw() const;
 		float getPitch() const;
-		float getZoom() const;
 
 		void setPos(glm::vec3 pos);
 		void setFront(glm::vec3 front);
@@ -40,10 +38,10 @@ class Camera {
 		void setWorldUp(glm::vec3 worldUp);
 		void setYaw(float yaw);
 		void setPitch(float pitch);
-		void setZoom(float zoom);
 
 		glm::mat4 getViewMatrix();
 		void updateCameraVectors();
+		void initCoord(std::vector<Object*> objects);
 };
 
 #endif

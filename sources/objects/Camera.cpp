@@ -18,7 +18,6 @@ Camera &Camera::operator=(const Camera &camera) {
 	this->worldUp = camera.worldUp;
 	this->yaw = camera.yaw;
 	this->pitch = camera.pitch;
-	this->zoom = camera.zoom;
 	return (*this);
 }
 
@@ -50,10 +49,6 @@ float Camera::getPitch() const {
 	return (this->pitch);
 }
 
-float Camera::getZoom() const {
-	return (this->zoom);
-}
-
 void Camera::setPos(glm::vec3 pos) {
 	this->pos = pos;
 }
@@ -82,10 +77,6 @@ void Camera::setPitch(float pitch) {
 	this->pitch = pitch;
 }
 
-void Camera::setZoom(float zoom) {
-	this->zoom = zoom;
-}
-
 glm::mat4 Camera::getViewMatrix() {
     return (glm::lookAt(this->pos, this->pos + this->front, this->up));
 }
@@ -98,4 +89,35 @@ void Camera::updateCameraVectors() {
 	this->front = glm::normalize(f);
 	this->right = glm::normalize(glm::cross(this->front, this->worldUp));
 	this->up = glm::normalize(glm::cross(this->right, this->front));
+}
+
+void calculateBoundingBox(std::vector<Object*> objects, glm::vec3& center, float& maxDimension) {
+	glm::vec3 min(std::numeric_limits<float>::max());
+	glm::vec3 max(std::numeric_limits<float>::lowest());
+
+	for (const Object* object : objects) {
+		for (const Vertex& vertex : object->getVertices()) {
+			if (vertex.getX() < min.x) min.x = vertex.getX();
+			if (vertex.getY() < min.y) min.y = vertex.getY();
+			if (vertex.getZ() < min.z) min.z = vertex.getZ();
+
+			if (vertex.getX() > max.x) max.x = vertex.getX();
+			if (vertex.getY() > max.y) max.y = vertex.getY();
+			if (vertex.getZ() > max.z) max.z = vertex.getZ();
+		}
+	}
+
+	center = (min + max) / 2.0f;
+	maxDimension = glm::length(max - min);
+}
+
+void Camera::initCoord(std::vector<Object*> objects) {
+	glm::vec3 center;
+	float maxDimension;
+	calculateBoundingBox(objects, center, maxDimension);
+
+	this->pos.x = center.x - maxDimension * 1.5f;;
+	this->pos.y = center.y;
+	this->pos.z = center.z;
+	updateCameraVectors();
 }

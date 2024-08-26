@@ -34,8 +34,6 @@ class Program {
 		void setFile(std::string filename);
 		void addObject(Object *object);
 		void addMaterial(Material *material);
-
-		glm::vec3 calculateCenter() const;
 };
 
 #endif
