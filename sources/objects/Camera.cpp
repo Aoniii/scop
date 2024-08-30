@@ -49,6 +49,18 @@ float Camera::getPitch() const {
 	return (this->pitch);
 }
 
+float Camera::getAngleX() const {
+	return (this->angleX);
+}
+
+float Camera::getAngleY() const {
+	return (this->angleY);
+}
+
+float Camera::getAngleZ() const {
+	return (this->angleZ);
+}
+
 void Camera::setPos(glm::vec3 pos) {
 	this->pos = pos;
 }
@@ -75,6 +87,48 @@ void Camera::setYaw(float yaw) {
 
 void Camera::setPitch(float pitch) {
 	this->pitch = pitch;
+}
+
+void Camera::setAngleX(float f) {
+	this->angleX = f;
+}
+
+void Camera::setAngleY(float f) {
+	this->angleY = f;
+}
+
+void Camera::setAngleZ(float f) {
+	this->angleZ = f;
+}
+
+void Camera::addPos(glm::vec3 pos) {
+	this->pos.x += pos.x;
+	this->pos.y += pos.y;
+	this->pos.z += pos.z;
+}
+
+void Camera::addAngleX(float f) {
+	this->angleX += f;
+	if (this->angleX < 0)
+		this->angleX += 360.0f;
+	else if (this->angleX > 360.0f)
+		this->angleX -= 360.0f;
+}
+
+void Camera::addAngleY(float f) {
+	this->angleY += f;
+	if (this->angleY < 0)
+		this->angleY += 360.0f;
+	else if (this->angleY > 360.0f)
+		this->angleY -= 360.0f;
+}
+
+void Camera::addAngleZ(float f) {
+	this->angleZ += f;
+	if (this->angleZ < 0)
+		this->angleZ += 360.0f;
+	else if (this->angleZ > 360.0f)
+		this->angleZ -= 360.0f;
 }
 
 glm::mat4 Camera::getViewMatrix() {

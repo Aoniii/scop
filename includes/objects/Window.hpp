@@ -26,6 +26,7 @@ class Window {
 		Camera* getCamera();
 
 		void draw(Program *program) const;
+		void callback();
 };
 
 #endif

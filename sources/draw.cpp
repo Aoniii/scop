@@ -5,8 +5,8 @@ void drawPoint(Program *program) {
 	glBegin(GL_POINTS);
 	glColor3f(1.0f, 1.0f, 1.0f);
 
-	for (Object* objects : program->getObjects())
-		for (Vertex vertex : objects->getVertices())
+	for (const Object* objects : program->getObjects())
+		for (const Vertex& vertex : objects->getVertices())
 			glVertex4f(vertex.getX(), vertex.getY(), vertex.getZ(), vertex.getW());
 
 	glEnd();
@@ -16,9 +16,9 @@ void drawLine(Program *program) {
 	glBegin(GL_LINES);
 	glColor3f(1.0f, 1.0f, 1.0f);
 
-	for (Object* objects : program->getObjects()) {
+	for (const Object* objects : program->getObjects()) {
 		std::vector<Vertex> vertices = objects->getVertices();
-		for (Face face : objects->getFaces()) {
+		for (const Face& face : objects->getFaces()) {
 			std::vector<int> vertexIndices = face.getVertexIndices();
 			for (size_t i = 0; i < vertexIndices.size(); i++) {
 				int currentIndex = vertexIndices[i] - 1;
@@ -35,9 +35,9 @@ void drawTriangle(Program *program) {
 	glBegin(GL_TRIANGLES);
 	glColor3f(1.0f, 1.0f, 1.0f);
 
-	for (Object* objects : program->getObjects()) {
+	for (const Object* objects : program->getObjects()) {
 		std::vector<Vertex> vertices = objects->getVertices();
-		for (Face face : objects->getFaces()) {
+		for (const Face& face : objects->getFaces()) {
 			std::vector<int> vertexIndices = face.getVertexIndices();
 			for (size_t i = 0; i < vertexIndices.size() - 1; i++) {
 				int index1 = vertexIndices[i] - 1;
