@@ -66,7 +66,8 @@ void Window::draw(Program *program) const {
     	glLoadMatrixf(&mvp[0][0]);
 
 		//drawPoint(program);
-		drawLine(program);
+		//drawLine(program);
+		drawTriangle(program);
 
 		glfwSwapBuffers(this->getWindow());
 		glfwPollEvents();
