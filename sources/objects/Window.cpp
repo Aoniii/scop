@@ -65,7 +65,8 @@ void Window::draw(Program *program) const {
 		glMatrixMode(GL_MODELVIEW);
     	glLoadMatrixf(&mvp[0][0]);
 
-		drawPoint(program);
+		//drawPoint(program);
+		drawLine(program);
 
 		glfwSwapBuffers(this->getWindow());
 		glfwPollEvents();

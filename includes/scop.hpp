@@ -24,5 +24,6 @@
 Program *parse(const std::string filename);
 void parsingChecker(Program *program);
 void drawPoint(Program *program);
+void drawLine(Program *program);
 
 #endif
