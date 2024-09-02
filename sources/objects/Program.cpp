@@ -32,6 +32,13 @@ Window *Program::getWindow() const {
 	return(this->window);
 }
 
+Material *Program::getMaterial(std::string name) const {
+	for (Material *mat : this->materials) {
+		if (mat->getName() == name)
+			return (mat);
+	}
+	return (NULL);
+}
 
 void Program::setName(std::string name) {
 	this->name = name;

@@ -75,9 +75,12 @@ void Window::draw(Program *program) const {
 		glMatrixMode(GL_MODELVIEW);
     	glLoadMatrixf(&mvp[0][0]);
 
-		//drawPoint(program);
-		//drawLine(program);
-		drawTriangle(program);
+		if (this->camera->getType() == 1)
+			drawPoint(program);
+		else if (this->camera->getType() == 2)
+			drawLine(program);
+		else if (this->camera->getType() == 3)
+			drawTriangle(program);
 
 		glfwSwapBuffers(this->getWindow());
 		glfwPollEvents();
@@ -114,6 +117,15 @@ void Window::callback() {
 					break;
 				case GLFW_KEY_Q:
 					win->camera->addAngleX(-1.0f);
+					break;
+				case GLFW_KEY_1:
+					win->camera->setType(1);
+					break;
+				case GLFW_KEY_2:
+					win->camera->setType(2);
+					break;
+				case GLFW_KEY_3:
+					win->camera->setType(3);
 					break;
 			}
 		}

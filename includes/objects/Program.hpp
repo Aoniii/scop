@@ -25,6 +25,7 @@ class Program {
 		std::vector<Object*> getObjects() const;
 		std::vector<Material*> getMaterials() const;
 		Window *getWindow() const;
+		Material *getMaterial(std::string name) const;
 
 		void setName(std::string name);
 		void setObjects(std::vector<Object*> objects);

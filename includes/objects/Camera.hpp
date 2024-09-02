@@ -19,6 +19,7 @@ class Camera {
 		float angleX = 0.0f;
 		float angleY = 0.0f;
 		float angleZ = 0.0f;
+		unsigned int type = 3;
 
 	public:
 		Camera();
@@ -36,6 +37,7 @@ class Camera {
 		float getAngleX() const;
 		float getAngleY() const;
 		float getAngleZ() const;
+		unsigned int getType() const;
 
 		void setPos(glm::vec3 pos);
 		void setFront(glm::vec3 front);
@@ -47,6 +49,7 @@ class Camera {
 		void setAngleX(float f);
 		void setAngleY(float f);
 		void setAngleZ(float f);
+		void setType(unsigned int type);
 
 		void addPos(glm::vec3 pos);
 		void addAngleX(float f);

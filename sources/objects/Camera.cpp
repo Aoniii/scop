@@ -61,6 +61,10 @@ float Camera::getAngleZ() const {
 	return (this->angleZ);
 }
 
+unsigned int Camera::getType() const {
+	return (this->type);
+}
+
 void Camera::setPos(glm::vec3 pos) {
 	this->pos = pos;
 }
@@ -99,6 +103,10 @@ void Camera::setAngleY(float f) {
 
 void Camera::setAngleZ(float f) {
 	this->angleZ = f;
+}
+
+void Camera::setType(unsigned int type) {
+	this->type = type;
 }
 
 void Camera::addPos(glm::vec3 pos) {
