@@ -26,6 +26,5 @@ void parsingChecker(Program *program);
 
 void drawPoint(Program *program);
 void drawLine(Program *program);
-void drawTriangle(Program *program);
 
 #endif

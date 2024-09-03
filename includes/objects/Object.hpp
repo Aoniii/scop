@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <string>
+#include <GL/glew.h>
+#include <iostream>
 #include "Vertex.hpp"
 #include "TextureCoord.hpp"
 #include "Normal.hpp"
@@ -15,6 +17,13 @@ class Object {
 		std::vector<TextureCoord> textures;
 		std::vector<Normal> normals;
 		std::vector<Face> faces;
+
+		GLuint VAO;
+		GLuint VBO_vertices;
+		GLuint VBO_textures;
+		GLuint VBO_normals;
+		GLuint EBO;
+		float nbIndices = 0;
 
 	public:
 		Object();
@@ -38,6 +47,9 @@ class Object {
 		void addTexture(TextureCoord t);
 		void addNormal(Normal n);
 		void addFace(Face f);
+
+		void setupBuffers();
+		void draw();
 };
 
 #endif

@@ -73,14 +73,15 @@ void Window::draw(Program *program) const {
 		glm::mat4 mvp = projection * view * model;
 
 		glMatrixMode(GL_MODELVIEW);
-    	glLoadMatrixf(&mvp[0][0]);
+		glLoadMatrixf(&mvp[0][0]);
 
 		if (this->camera->getType() == 1)
 			drawPoint(program);
 		else if (this->camera->getType() == 2)
 			drawLine(program);
 		else if (this->camera->getType() == 3)
-			drawTriangle(program);
+			for (Object* objects : program->getObjects())
+				objects->draw();
 
 		glfwSwapBuffers(this->getWindow());
 		glfwPollEvents();
