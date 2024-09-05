@@ -84,12 +84,16 @@ void Window::draw(Program *program) const {
 			shader->disable();
 			drawLine(program);
 		} else if (this->camera->getType() == 3) {
+			shader->disable();
+			for (Object* objects : program->getObjects())
+				objects->draw();
+		} else if (this->camera->getType() == 4) {
 			shader->use();
 			shader->setMat4("model", model);
 			shader->setMat4("view", view);
 			shader->setMat4("projection", projection);
-			shader->setVec3("lightPos", this->camera->getPos());
 			shader->setVec3("viewPos", this->camera->getPos());
+			shader->setVec3("lightPos", this->camera->getPos());
 			shader->setMaterial(*program->getMaterials()[0]);
 			for (Object* objects : program->getObjects())
 				objects->draw();
@@ -139,6 +143,9 @@ void Window::callback() {
 					break;
 				case GLFW_KEY_3:
 					win->camera->setType(3);
+					break;
+				case GLFW_KEY_4:
+					win->camera->setType(4);
 					break;
 			}
 		}

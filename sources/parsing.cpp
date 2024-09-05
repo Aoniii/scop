@@ -13,10 +13,12 @@ Program *parse(const std::string filename) {
 	}
 
 	std::string line;
+	int nbLine = 0;
 	Object *object = NULL;
 	std::string mat = "";
 	int smoothing = 0;
 	while (std::getline(file, line)) {
+		nbLine++;
 		std::istringstream iss(line);
 		std::string command;
 		iss >> command;
@@ -42,7 +44,7 @@ Program *parse(const std::string filename) {
 					program->addObject(object);
 				}
 			} else {
-				std::cerr << "[\e[31mERROR\e[39m] File OBJ contains an error !" << std::endl;
+				std::cerr << "[\e[31mERROR\e[39m] File OBJ contains an error ! (line: " << nbLine << ")" << std::endl;
 				exit(1);
 			}
 		}
@@ -116,8 +118,10 @@ void parseMTL(std::string filename, Program *program) {
 	}
 
 	std::string line;
+	int nbLine = 0;
 	Material *material = NULL;
 	while (std::getline(file, line)) {
+		nbLine++;
 		std::istringstream iss(line);
 		std::string command;
 		iss >> command;
@@ -129,7 +133,7 @@ void parseMTL(std::string filename, Program *program) {
 			material->setName(name);
 			program->addMaterial(material);
 		} else if (command[0] && command[0] != '#' && command[0] != ' ' && material == NULL) {
-			std::cerr << "[\e[31mERROR\e[39m] File MTL contains an error !" << std::endl;
+			std::cerr << "[\e[31mERROR\e[39m] File MTL contains an error ! (line: " << nbLine << ")" << std::endl;
 			exit(1);
 		} else if (command == "Ka") {
 			float i = 0, j = 0, k = 0;

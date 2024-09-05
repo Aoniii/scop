@@ -19,7 +19,7 @@ class Camera {
 		float angleX = 0.0f;
 		float angleY = 0.0f;
 		float angleZ = 0.0f;
-		unsigned int type = 3;
+		unsigned int type = 4;
 
 	public:
 		Camera();
