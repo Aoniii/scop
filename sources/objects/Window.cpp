@@ -54,10 +54,12 @@ Camera* Window::getCamera() {
 
 void Window::draw(Program *program) const {
 	this->camera->initCoord(program->getObjects());
+	Shader *shader = new Shader();
 
 	while (!glfwWindowShouldClose(this->getWindow())) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		glEnable(GL_DEPTH_TEST);
 
 		glm::mat4 view = this->camera->getViewMatrix();
 		glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)this->width / (float)this->height, 0.1f, 1000.0f);
@@ -75,13 +77,23 @@ void Window::draw(Program *program) const {
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixf(&mvp[0][0]);
 
-		if (this->camera->getType() == 1)
+		if (this->camera->getType() == 1) {
+			shader->disable();
 			drawPoint(program);
-		else if (this->camera->getType() == 2)
+		} else if (this->camera->getType() == 2) {
+			shader->disable();
 			drawLine(program);
-		else if (this->camera->getType() == 3)
+		} else if (this->camera->getType() == 3) {
+			shader->use();
+			shader->setMat4("model", model);
+			shader->setMat4("view", view);
+			shader->setMat4("projection", projection);
+			shader->setVec3("lightPos", this->camera->getPos());
+			shader->setVec3("viewPos", this->camera->getPos());
+			shader->setMaterial(*program->getMaterials()[0]);
 			for (Object* objects : program->getObjects())
 				objects->draw();
+		}
 
 		glfwSwapBuffers(this->getWindow());
 		glfwPollEvents();
