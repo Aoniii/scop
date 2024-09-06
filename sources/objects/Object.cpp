@@ -1,13 +1,13 @@
-#include "Object.hpp"
+#include "scop.hpp"
 
 Object::Object(): name(""), VAO(0), VBO_vertices(0), VBO_textures(0), VBO_normals(0), EBO(0) {}
 
 Object::~Object() {
 	glDeleteVertexArrays(1, &this->VAO);
-    glDeleteBuffers(1, &this->VBO_vertices);
-    glDeleteBuffers(1, &this->VBO_textures);
-    glDeleteBuffers(1, &this->VBO_normals);
-    glDeleteBuffers(1, &this->EBO);
+	glDeleteBuffers(1, &this->VBO_vertices);
+	glDeleteBuffers(1, &this->VBO_textures);
+	glDeleteBuffers(1, &this->VBO_normals);
+	glDeleteBuffers(1, &this->EBO);
 }
 
 Object::Object(const Object &object) {
@@ -95,29 +95,29 @@ void Object::setupBuffers() {
 	glEnableVertexAttribArray(0);
 
 	if (!this->textures.empty()) {
-        glGenBuffers(1, &this->VBO_textures);
-        glBindBuffer(GL_ARRAY_BUFFER, this->VBO_textures);
-        glBufferData(GL_ARRAY_BUFFER, this->textures.size() * sizeof(TextureCoord), this->textures.data(), GL_STATIC_DRAW);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(TextureCoord), (void*)0);
-        glEnableVertexAttribArray(1);
-    }
+		glGenBuffers(1, &this->VBO_textures);
+		glBindBuffer(GL_ARRAY_BUFFER, this->VBO_textures);
+		glBufferData(GL_ARRAY_BUFFER, this->textures.size() * sizeof(TextureCoord), this->textures.data(), GL_STATIC_DRAW);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(TextureCoord), (void*)0);
+		glEnableVertexAttribArray(1);
+	}
 
-    if (!this->normals.empty()) {
-        glGenBuffers(1, &this->VBO_normals);
-        glBindBuffer(GL_ARRAY_BUFFER, this->VBO_normals);
-        glBufferData(GL_ARRAY_BUFFER, this->normals.size() * sizeof(Normal), this->normals.data(), GL_STATIC_DRAW);
-        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Normal), (void*)0);
-        glEnableVertexAttribArray(2);
-    }
+	if (!this->normals.empty()) {
+		glGenBuffers(1, &this->VBO_normals);
+		glBindBuffer(GL_ARRAY_BUFFER, this->VBO_normals);
+		glBufferData(GL_ARRAY_BUFFER, this->normals.size() * sizeof(Normal), this->normals.data(), GL_STATIC_DRAW);
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Normal), (void*)0);
+		glEnableVertexAttribArray(2);
+	}
 
 	std::vector<GLuint> indices;
 	for (const Face& face : this->faces) {
 		std::vector<int> vertexIndices = face.getVertexIndices();
 
 		if (vertexIndices.size() < 3) {
-            std::cerr << "Face with fewer than 3 vertices detected!" << std::endl;
-            continue;
-        }
+			std::cerr << "Face with fewer than 3 vertices detected!" << std::endl;
+			continue;
+		}
 
 		for (size_t i = 0; i < vertexIndices.size() - 1; i++) {
 			indices.push_back(vertexIndices[i] - 1);
@@ -126,16 +126,33 @@ void Object::setupBuffers() {
 		}
 	}
 
-    glGenBuffers(1, &this->EBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint),indices.data(), GL_STATIC_DRAW);
+	glGenBuffers(1, &this->EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint),indices.data(), GL_STATIC_DRAW);
 	this->nbIndices = indices.size();
 
 	glBindVertexArray(0);
 }
 
 void Object::draw() {
-    glBindVertexArray(this->VAO);
-    glDrawElements(GL_TRIANGLES, this->nbIndices, GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
+	glBindVertexArray(this->VAO);
+	glDrawElements(GL_TRIANGLES, this->nbIndices, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}
+
+void Object::drawWithMaterial(Program* program, Shader* shader) {
+	glBindVertexArray(this->VAO);
+	size_t i = 0;
+	for (const Face& face : this->faces) {
+		Material *material = program->getMaterial(face.getMaterialName());
+		if (material)
+			shader->setMaterial(*material);
+		else
+			shader->setMaterial(*program->getBlank());
+		for (size_t j = 1; j < face.getVertexIndices().size(); j++) {
+			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, (void*)((i * 3) * sizeof(GLuint)));
+			i++;
+		}
+	}
+	glBindVertexArray(0);
 }

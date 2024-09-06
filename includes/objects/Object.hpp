@@ -10,6 +10,9 @@
 #include "Normal.hpp"
 #include "Face.hpp"
 
+class Program;
+class Shader;
+
 class Object {
 	private:
 		std::string name;
@@ -50,6 +53,7 @@ class Object {
 
 		void setupBuffers();
 		void draw();
+		void drawWithMaterial(Program* program, Shader* shader);
 };
 
 #endif

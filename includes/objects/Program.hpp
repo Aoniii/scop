@@ -14,6 +14,7 @@ class Program {
 		std::vector<Object*> objects;
 		std::vector<Material*> materials;
 		Window *window;
+		Material *blank;
 
 	public:
 		Program();
@@ -37,6 +38,7 @@ class Program {
 		void addMaterial(Material *material);
 
 		glm::vec3 calculateCenter() const;
+		Material *getBlank() const;
 };
 
 #endif

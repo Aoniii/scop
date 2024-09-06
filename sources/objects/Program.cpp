@@ -1,6 +1,16 @@
 #include "Program.hpp"
 
-Program::Program(): name(""), objects(), materials(), window(NULL) {}
+Program::Program(): name(""), objects(), materials(), window(NULL) {
+	this->blank = new Material();
+	this->blank->setName("blank");
+	this->blank->setKa({1.0f, 1.0f, 1.0f});
+	this->blank->setKd({1.0f, 1.0f, 1.0f});
+	this->blank->setKs({1.0f, 1.0f, 1.0f});
+	this->blank->setNs(0);
+	this->blank->setD(0);
+	this->blank->setNi(0);
+	this->blank->setIllum(0);
+}
 
 Program::~Program() {}
 
@@ -82,4 +92,8 @@ glm::vec3 Program::calculateCenter() const {
 	center /= f;
 
 	return (center);
+}
+
+Material *Program::getBlank() const {
+	return (this->blank);
 }
