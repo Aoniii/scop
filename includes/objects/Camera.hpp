@@ -55,6 +55,8 @@ class Camera {
 		void addAngleX(float f);
 		void addAngleY(float f);
 		void addAngleZ(float f);
+		void addYaw(float f);
+		void addPitch(float f);
 
 		glm::mat4 getViewMatrix();
 		void updateCameraVectors();

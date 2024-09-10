@@ -134,6 +134,36 @@ void Window::callback() {
 				case GLFW_KEY_Q:
 					win->camera->addAngleX(-1.0f);
 					break;
+				case GLFW_KEY_Z:
+					win->camera->addYaw(-5.0f);
+					break;
+				case GLFW_KEY_X:
+					win->camera->addYaw(5.0f);
+					break;
+				case GLFW_KEY_C:
+					win->camera->addPitch(-5.0f);
+					break;
+				case GLFW_KEY_V:
+					win->camera->addPitch(5.0f);
+					break;
+				case GLFW_KEY_T:
+					win->camera->addPos(win->camera->getFront());
+					break;
+				case GLFW_KEY_G:
+					win->camera->addPos(-(win->camera->getFront()));
+					break;
+				case GLFW_KEY_H:
+					win->camera->addPos(win->camera->getRight());
+					break;
+				case GLFW_KEY_F:
+					win->camera->addPos(-(win->camera->getRight()));
+					break;
+				case GLFW_KEY_R:
+					win->camera->addPos(win->camera->getUp());
+					break;
+				case GLFW_KEY_Y:
+					win->camera->addPos(-(win->camera->getUp()));
+					break;
 				case GLFW_KEY_1:
 					win->camera->setType(1);
 					break;

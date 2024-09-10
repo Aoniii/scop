@@ -113,6 +113,7 @@ void Camera::addPos(glm::vec3 pos) {
 	this->pos.x += pos.x;
 	this->pos.y += pos.y;
 	this->pos.z += pos.z;
+	updateCameraVectors();
 }
 
 void Camera::addAngleX(float f) {
@@ -137,6 +138,24 @@ void Camera::addAngleZ(float f) {
 		this->angleZ += 360.0f;
 	else if (this->angleZ > 360.0f)
 		this->angleZ -= 360.0f;
+}
+
+void Camera::addYaw(float f) {
+	this->yaw += f;
+	if (this->yaw < -180.0f)
+		this->yaw += 360.0f;
+	else if (this->yaw > 180.0f)
+		this->yaw -= 360.0f;
+	updateCameraVectors();
+}
+
+void Camera::addPitch(float f) {
+	this->pitch += f;
+	if (this->pitch < -180.0f)
+		this->pitch += 360.0f;
+	else if (this->pitch > 180.0f)
+		this->pitch -= 360.0f;
+	updateCameraVectors();
 }
 
 glm::mat4 Camera::getViewMatrix() {
