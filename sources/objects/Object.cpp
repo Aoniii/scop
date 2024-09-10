@@ -119,10 +119,10 @@ void Object::setupBuffers() {
 			continue;
 		}
 
-		for (size_t i = 0; i < vertexIndices.size() - 1; i++) {
-			indices.push_back(vertexIndices[i] - 1);
+		for (size_t i = 0; i + 2 < vertexIndices.size(); i++) {
+			indices.push_back(vertexIndices[0] - 1);
 			indices.push_back(vertexIndices[i + 1] - 1);
-			indices.push_back(vertexIndices[(i + 2) % vertexIndices.size()] - 1);
+			indices.push_back(vertexIndices[i + 2] - 1);
 		}
 	}
 
@@ -135,6 +135,7 @@ void Object::setupBuffers() {
 }
 
 void Object::draw() {
+	glColor3f(1.0f, 1.0f, 1.0f);
 	glBindVertexArray(this->VAO);
 	glDrawElements(GL_TRIANGLES, this->nbIndices, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
@@ -149,10 +150,27 @@ void Object::drawWithMaterial(Program* program, Shader* shader) {
 			shader->setMaterial(*material);
 		else
 			shader->setMaterial(*program->getBlank());
-		for (size_t j = 1; j < face.getVertexIndices().size(); j++) {
-			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, (void*)((i * 3) * sizeof(GLuint)));
-			i++;
-		}
+		glDrawElements(GL_TRIANGLES, (face.getVertexIndices().size() - 2) * 3, GL_UNSIGNED_INT, (void*)((i * 3) * sizeof(GLuint)));
+		i += (face.getVertexIndices().size() - 2);
 	}
 	glBindVertexArray(0);
+}
+
+void Object::drawRGB() {
+	glBindVertexArray(this->VAO);
+	size_t i = 0;
+	for (const Face& face : this->faces) {
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glDrawElements(GL_TRIANGLES, (face.getVertexIndices().size() - 2) * 3, GL_UNSIGNED_INT, (void*)((i * 3) * sizeof(GLuint)));
+		i += (face.getVertexIndices().size() - 2);
+	}
+	glBindVertexArray(0);
+}
+
+void Object::clearBuffers() {
+	glDeleteVertexArrays(1, &this->VAO);
+	glDeleteBuffers(1, &this->VBO_vertices);
+	glDeleteBuffers(1, &this->VBO_textures);
+	glDeleteBuffers(1, &this->VBO_normals);
+	glDeleteBuffers(1, &this->EBO);
 }

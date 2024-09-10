@@ -66,6 +66,7 @@ void Window::draw(Program *program) const {
 			this->camera->initCoord(program->getObjects());
 			this->camera->setReset(0.0f);
 			this->camera->setRotate(false);
+			this->camera->setType(4);
 		}
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -107,6 +108,10 @@ void Window::draw(Program *program) const {
 			shader->setVec3("lightPos", this->camera->getPos());
 			for (Object* objects : program->getObjects())
 				objects->drawWithMaterial(program, shader);
+		} else if (this->camera->getType() == 5) {
+			shader->disable();
+			for (Object* objects : program->getObjects())
+				objects->drawRGB();
 		}
 
 		if (this->camera->getRotate())
@@ -195,6 +200,9 @@ void Window::callback() {
 					break;
 				case GLFW_KEY_4:
 					win->camera->setType(4);
+					break;
+				case GLFW_KEY_5:
+					win->camera->setType(5);
 					break;
 			}
 		}

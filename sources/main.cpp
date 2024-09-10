@@ -24,5 +24,9 @@ int main(int ac, char** av) {
 			objects->setupBuffers();
 
 	program->getWindow()->draw(program);
+
+	for (Object* objects : program->getObjects())
+			objects->clearBuffers();
+
 	return (0);
 }
