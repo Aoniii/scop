@@ -57,6 +57,17 @@ void Window::draw(Program *program) const {
 	Shader *shader = new Shader();
 
 	while (!glfwWindowShouldClose(this->getWindow())) {
+		if (this->camera->getReset()) {
+			this->camera->setYaw(180.0f);
+			this->camera->setPitch(0.0f);
+			this->camera->setAngleX(0.0f);
+			this->camera->setAngleY(0.0f);
+			this->camera->setAngleZ(0.0f);
+			this->camera->initCoord(program->getObjects());
+			this->camera->setReset(0.0f);
+			this->camera->setRotate(false);
+		}
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glEnable(GL_DEPTH_TEST);
@@ -97,6 +108,9 @@ void Window::draw(Program *program) const {
 			for (Object* objects : program->getObjects())
 				objects->drawWithMaterial(program, shader);
 		}
+
+		if (this->camera->getRotate())
+			this->camera->addAngleY(0.25f);
 
 		glfwSwapBuffers(this->getWindow());
 		glfwPollEvents();
@@ -163,6 +177,12 @@ void Window::callback() {
 					break;
 				case GLFW_KEY_Y:
 					win->camera->addPos(-(win->camera->getUp()));
+					break;
+				case GLFW_KEY_B:
+					win->camera->setReset(true);
+					break;
+				case GLFW_KEY_N:
+					win->camera->toggleRotate();
 					break;
 				case GLFW_KEY_1:
 					win->camera->setType(1);

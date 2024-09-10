@@ -20,6 +20,8 @@ class Camera {
 		float angleY = 0.0f;
 		float angleZ = 0.0f;
 		unsigned int type = 4;
+		bool rotate = false;
+		bool reset = false;
 
 	public:
 		Camera();
@@ -38,6 +40,8 @@ class Camera {
 		float getAngleY() const;
 		float getAngleZ() const;
 		unsigned int getType() const;
+		bool getRotate() const;
+		bool getReset() const;
 
 		void setPos(glm::vec3 pos);
 		void setFront(glm::vec3 front);
@@ -50,6 +54,8 @@ class Camera {
 		void setAngleY(float f);
 		void setAngleZ(float f);
 		void setType(unsigned int type);
+		void setRotate(bool b);
+		void setReset(bool b);
 
 		void addPos(glm::vec3 pos);
 		void addAngleX(float f);
@@ -57,6 +63,7 @@ class Camera {
 		void addAngleZ(float f);
 		void addYaw(float f);
 		void addPitch(float f);
+		void toggleRotate();
 
 		glm::mat4 getViewMatrix();
 		void updateCameraVectors();

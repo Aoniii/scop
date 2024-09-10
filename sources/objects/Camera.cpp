@@ -65,6 +65,14 @@ unsigned int Camera::getType() const {
 	return (this->type);
 }
 
+bool Camera::getRotate() const {
+	return (this->rotate);
+}
+
+bool Camera::getReset() const {
+	return (this->reset);
+}
+
 void Camera::setPos(glm::vec3 pos) {
 	this->pos = pos;
 }
@@ -107,6 +115,14 @@ void Camera::setAngleZ(float f) {
 
 void Camera::setType(unsigned int type) {
 	this->type = type;
+}
+
+void Camera::setRotate(bool b) {
+	this->rotate = b;
+}
+
+void Camera::setReset(bool b) {
+	this->reset = b;
 }
 
 void Camera::addPos(glm::vec3 pos) {
@@ -156,6 +172,10 @@ void Camera::addPitch(float f) {
 	else if (this->pitch > 180.0f)
 		this->pitch -= 360.0f;
 	updateCameraVectors();
+}
+
+void Camera::toggleRotate() {
+	this->rotate = !this->rotate;
 }
 
 glm::mat4 Camera::getViewMatrix() {
