@@ -1,4 +1,4 @@
-#include "Program.hpp"
+#include "scop.hpp"
 
 Program::Program(): name(""), objects(), materials(), window(NULL) {
 	this->blank = new Material();
@@ -10,6 +10,7 @@ Program::Program(): name(""), objects(), materials(), window(NULL) {
 	this->blank->setD(0);
 	this->blank->setNi(0);
 	this->blank->setIllum(0);
+	this->texture = createTextureFromBMP("./ressources/chaton.bmp");
 }
 
 Program::~Program() {}
@@ -23,6 +24,7 @@ Program &Program::operator=(const Program &program) {
 	this->objects = program.objects;
 	this->materials = program.materials;
 	this->window = program.window;
+	this->texture = program.texture;
 	return (*this);
 }
 
@@ -48,6 +50,10 @@ Material *Program::getMaterial(std::string name) const {
 			return (mat);
 	}
 	return (NULL);
+}
+
+unsigned int Program::getTexture() const {
+	return (this->texture);
 }
 
 void Program::setName(std::string name) {

@@ -111,7 +111,12 @@ void Window::draw(Program *program) const {
 		} else if (this->camera->getType() == 5) {
 			shader->disable();
 			for (Object* objects : program->getObjects())
-				objects->drawRGB();
+				objects->drawGreyMode();
+		} else if (this->camera->getType() == 6) {
+			shader->disable();
+			glBindTexture(GL_TEXTURE_2D, program->getTexture());
+			for (Object* objects : program->getObjects())
+				objects->draw();
 		}
 
 		if (this->camera->getRotate())
@@ -203,6 +208,9 @@ void Window::callback() {
 					break;
 				case GLFW_KEY_5:
 					win->camera->setType(5);
+					break;
+				case GLFW_KEY_6:
+					win->camera->setType(6);
 					break;
 			}
 		}

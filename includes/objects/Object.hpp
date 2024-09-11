@@ -54,7 +54,7 @@ class Object {
 		void setupBuffers();
 		void draw();
 		void drawWithMaterial(Program* program, Shader* shader);
-		void drawRGB();
+		void drawGreyMode();
 		void clearBuffers();
 };
 

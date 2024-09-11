@@ -156,7 +156,7 @@ void Object::drawWithMaterial(Program* program, Shader* shader) {
 	glBindVertexArray(0);
 }
 
-void Object::drawRGB() {
+void Object::drawGreyMode() {
 	glBindVertexArray(this->VAO);
 	size_t i = 0;
 	float color = 0.2f;

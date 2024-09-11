@@ -24,6 +24,7 @@
 
 Program *parse(const std::string filename);
 void parsingChecker(Program *program);
+unsigned int createTextureFromBMP(const char* path);
 
 void drawPoint(Program *program);
 void drawLine(Program *program);

@@ -15,6 +15,7 @@ class Program {
 		std::vector<Material*> materials;
 		Window *window;
 		Material *blank;
+		unsigned int texture;
 
 	public:
 		Program();
@@ -27,6 +28,7 @@ class Program {
 		std::vector<Material*> getMaterials() const;
 		Window *getWindow() const;
 		Material *getMaterial(std::string name) const;
+		unsigned int getTexture() const;
 
 		void setName(std::string name);
 		void setObjects(std::vector<Object*> objects);
