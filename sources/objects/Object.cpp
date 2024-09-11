@@ -159,10 +159,14 @@ void Object::drawWithMaterial(Program* program, Shader* shader) {
 void Object::drawRGB() {
 	glBindVertexArray(this->VAO);
 	size_t i = 0;
+	float color = 0.2f;
 	for (const Face& face : this->faces) {
-		glColor3f(1.0f, 1.0f, 1.0f);
+		glColor3f(color, color, color);
 		glDrawElements(GL_TRIANGLES, (face.getVertexIndices().size() - 2) * 3, GL_UNSIGNED_INT, (void*)((i * 3) * sizeof(GLuint)));
 		i += (face.getVertexIndices().size() - 2);
+		color += 0.05f;
+		if (color > 0.9f)
+			color = 0.2f;
 	}
 	glBindVertexArray(0);
 }
