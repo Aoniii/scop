@@ -8,8 +8,8 @@ Shader::Shader() {
 	vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 	fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 	try {
-		vShaderFile.open("./shader/vertex.glsl");
-		fShaderFile.open("./shader/fragment.glsl");
+		vShaderFile.open("./shaders/vertex.glsl");
+		fShaderFile.open("./shaders/fragment.glsl");
 		std::stringstream vShaderStream, fShaderStream;
 		vShaderStream << vShaderFile.rdbuf();
 		fShaderStream << fShaderFile.rdbuf();           
