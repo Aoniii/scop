@@ -106,6 +106,8 @@ void Window::draw(Program *program) const {
 			shader->setMat4("projection", projection);
 			shader->setVec3("viewPos", this->camera->getPos());
 			shader->setVec3("lightPos", this->camera->getPos());
+			shader->setInt("ourTexture", program->getTexture());
+			shader->setBool("isTexture", false);
 			for (Object* objects : program->getObjects())
 				objects->drawWithMaterial(program, shader);
 		} else if (this->camera->getType() == 5) {
@@ -113,7 +115,14 @@ void Window::draw(Program *program) const {
 			for (Object* objects : program->getObjects())
 				objects->drawGreyMode();
 		} else if (this->camera->getType() == 6) {
-			shader->disable();
+			shader->use();
+			shader->setMat4("model", model);
+			shader->setMat4("view", view);
+			shader->setMat4("projection", projection);
+			shader->setVec3("viewPos", this->camera->getPos());
+			shader->setVec3("lightPos", this->camera->getPos());
+			shader->setInt("ourTexture", program->getTexture());
+			shader->setBool("isTexture", true);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, program->getTexture());
 			for (Object* objects : program->getObjects())
