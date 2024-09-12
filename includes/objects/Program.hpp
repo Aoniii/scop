@@ -28,6 +28,7 @@ class Program {
 		std::vector<Material*> getMaterials() const;
 		Window *getWindow() const;
 		Material *getMaterial(std::string name) const;
+		Material *getBlank() const;
 		unsigned int getTexture() const;
 
 		void setName(std::string name);
@@ -38,9 +39,9 @@ class Program {
 		void setFile(std::string filename);
 		void addObject(Object *object);
 		void addMaterial(Material *material);
+		void loadTexture(const char* path);
 
 		glm::vec3 calculateCenter() const;
-		Material *getBlank() const;
 };
 
 #endif

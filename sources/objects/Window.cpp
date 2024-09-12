@@ -114,6 +114,7 @@ void Window::draw(Program *program) const {
 				objects->drawGreyMode();
 		} else if (this->camera->getType() == 6) {
 			shader->disable();
+			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, program->getTexture());
 			for (Object* objects : program->getObjects())
 				objects->draw();

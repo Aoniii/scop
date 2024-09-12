@@ -10,7 +10,6 @@ Program::Program(): name(""), objects(), materials(), window(NULL) {
 	this->blank->setD(0);
 	this->blank->setNi(0);
 	this->blank->setIllum(0);
-	this->texture = createTextureFromBMP("./ressources/chaton.bmp");
 }
 
 Program::~Program() {}
@@ -52,6 +51,10 @@ Material *Program::getMaterial(std::string name) const {
 	return (NULL);
 }
 
+Material *Program::getBlank() const {
+	return (this->blank);
+}
+
 unsigned int Program::getTexture() const {
 	return (this->texture);
 }
@@ -85,6 +88,10 @@ void Program::addMaterial(Material *material) {
 	this->materials.push_back(material);
 }
 
+void Program::loadTexture(const char* path) {
+	this->texture = createTextureFromBMP(path);
+}
+
 glm::vec3 Program::calculateCenter() const {
 	glm::vec3 center(0.0f);
 	float f = 0;
@@ -98,8 +105,4 @@ glm::vec3 Program::calculateCenter() const {
 	center /= f;
 
 	return (center);
-}
-
-Material *Program::getBlank() const {
-	return (this->blank);
 }

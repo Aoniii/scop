@@ -94,21 +94,60 @@ void Object::setupBuffers() {
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 	glEnableVertexAttribArray(0);
 
-	if (!this->textures.empty()) {
-		glGenBuffers(1, &this->VBO_textures);
-		glBindBuffer(GL_ARRAY_BUFFER, this->VBO_textures);
-		glBufferData(GL_ARRAY_BUFFER, this->textures.size() * sizeof(TextureCoord), this->textures.data(), GL_STATIC_DRAW);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(TextureCoord), (void*)0);
-		glEnableVertexAttribArray(1);
+	if (this->textures.empty()) {
+		this->textures.resize(this->vertices.size());
+		for (size_t i = 0; i < this->vertices.size(); ++i) {
+			const Vertex& v = this->vertices[i];
+			this->textures[i] = TextureCoord((v.getX() + 1.0f) * 0.5f, (v.getY() + 1.0f) * 0.5f);
+		}
 	}
 
-	if (!this->normals.empty()) {
-		glGenBuffers(1, &this->VBO_normals);
-		glBindBuffer(GL_ARRAY_BUFFER, this->VBO_normals);
-		glBufferData(GL_ARRAY_BUFFER, this->normals.size() * sizeof(Normal), this->normals.data(), GL_STATIC_DRAW);
-		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Normal), (void*)0);
-		glEnableVertexAttribArray(2);
+	glGenBuffers(1, &this->VBO_textures);
+	glBindBuffer(GL_ARRAY_BUFFER, this->VBO_textures);
+	glBufferData(GL_ARRAY_BUFFER, this->textures.size() * sizeof(TextureCoord), this->textures.data(), GL_STATIC_DRAW);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(TextureCoord), (void*)0);
+	glEnableVertexAttribArray(1);
+
+	if (this->normals.empty()) {
+		this->normals.resize(this->vertices.size());
+
+		for (size_t i = 0; i < this->normals.size(); ++i)
+			this->normals[i] = Normal(0.0f, 0.0f, 0.0f);
+
+		for (const Face& face : this->faces) {
+			const std::vector<int>& vertexIndices = face.getVertexIndices();
+
+			if (vertexIndices.size() < 3)
+				continue;
+
+			const Vertex& v0 = this->vertices[vertexIndices[0] - 1];
+			const Vertex& v1 = this->vertices[vertexIndices[1] - 1];
+			const Vertex& v2 = this->vertices[vertexIndices[2] - 1];
+
+			glm::vec3 edge1(v1.getX() - v0.getX(), v1.getY() - v0.getY(), v1.getZ() - v0.getZ());
+			glm::vec3 edge2(v2.getX() - v0.getX(), v2.getY() - v0.getY(), v2.getZ() - v0.getZ());
+
+			glm::vec3 faceNormal = glm::normalize(glm::cross(edge1, edge2));
+
+			for (int index : vertexIndices) {
+				this->normals[index - 1].setI(this->normals[index - 1].getI() + faceNormal.x);
+				this->normals[index - 1].setJ(this->normals[index - 1].getJ() + faceNormal.y);
+				this->normals[index - 1].setK(this->normals[index - 1].getK() + faceNormal.z);
+			}
+		}
+
+		for (size_t i = 0; i < this->normals.size(); ++i) {
+			glm::vec3 normal(this->normals[i].getI(), this->normals[i].getJ(), this->normals[i].getK());
+			normal = glm::normalize(normal);
+			this->normals[i] = Normal(normal.x, normal.y, normal.z);
+		}
 	}
+
+	glGenBuffers(1, &this->VBO_normals);
+	glBindBuffer(GL_ARRAY_BUFFER, this->VBO_normals);
+	glBufferData(GL_ARRAY_BUFFER, this->normals.size() * sizeof(Normal), this->normals.data(), GL_STATIC_DRAW);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Normal), (void*)0);
+	glEnableVertexAttribArray(2);
 
 	std::vector<GLuint> indices;
 	for (const Face& face : this->faces) {
