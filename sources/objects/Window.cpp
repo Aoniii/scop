@@ -55,8 +55,10 @@ Camera* Window::getCamera() {
 void Window::draw(Program *program) const {
 	this->camera->initCoord(program->getObjects());
 	Shader *shader = new Shader();
-
 	glm::vec3 center = program->calculateCenter();
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, program->getTexture());
 	while (!glfwWindowShouldClose(this->getWindow())) {
 		if (this->camera->getReset()) {
 			this->camera->setYaw(180.0f);
@@ -89,34 +91,7 @@ void Window::draw(Program *program) const {
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixf(&mvp[0][0]);
 
-		if (this->camera->getType() == 1) {
-			shader->disable();
-			drawPoint(program);
-		} else if (this->camera->getType() == 2) {
-			shader->disable();
-			drawLine(program);
-		} else if (this->camera->getType() == 3) {
-			shader->disable();
-			for (Object* objects : program->getObjects())
-				objects->draw();
-		} else if (this->camera->getType() == 4) {
-			shader->use();
-			shader->setMat4("model", model);
-			shader->setMat4("view", view);
-			shader->setMat4("projection", projection);
-			shader->setVec3("viewPos", this->camera->getPos());
-			shader->setVec3("lightPos", this->camera->getPos());
-			shader->setInt("ourTexture", program->getTexture());
-			shader->setBool("isTexture", false);
-			for (Object* objects : program->getObjects())
-				objects->drawWithMaterial(program, shader);
-		} else if (this->camera->getType() == 5) {
-			shader->disable();
-			for (Object* objects : program->getObjects())
-				objects->drawGreyMode();
-		} else if (this->camera->getType() == 6) {
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, program->getTexture());
+		if (this->camera->getType() == 4 || this->camera->getType() == 6) {
 			shader->use();
 			shader->setMat4("model", model);
 			shader->setMat4("view", view);
@@ -124,6 +99,25 @@ void Window::draw(Program *program) const {
 			shader->setVec3("viewPos", this->camera->getPos());
 			shader->setVec3("lightPos", this->camera->getPos());
 			shader->setInt("ourTexture", 0);
+		} else {
+			shader->disable();
+		}
+
+		if (this->camera->getType() == 1) {
+			drawPoint(program);
+		} else if (this->camera->getType() == 2) {
+			drawLine(program);
+		} else if (this->camera->getType() == 3) {
+			for (Object* objects : program->getObjects())
+				objects->draw();
+		} else if (this->camera->getType() == 4) {
+			shader->setBool("isTexture", false);
+			for (Object* objects : program->getObjects())
+				objects->drawWithMaterial(program, shader);
+		} else if (this->camera->getType() == 5) {
+			for (Object* objects : program->getObjects())
+				objects->drawGreyMode();
+		} else if (this->camera->getType() == 6) {
 			shader->setBool("isTexture", true);
 			for (Object* objects : program->getObjects())
 				objects->draw();
