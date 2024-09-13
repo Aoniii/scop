@@ -34,6 +34,7 @@ void main() {
     vec3 specular = spec * material.Ks;
 
     vec3 result = ambient + diffuse + specular;
+    
     if (isTexture)
         FragColor = texture(ourTexture, TexCoord);
     else

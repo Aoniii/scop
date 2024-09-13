@@ -97,16 +97,20 @@ void Program::loadTexture(const char* path) {
 }
 
 glm::vec3 Program::calculateCenter() const {
-	glm::vec3 center(0.0f);
-	float f = 0;
+	glm::vec3 min(std::numeric_limits<float>::max());
+	glm::vec3 max(std::numeric_limits<float>::lowest());
 
-	for (Object *objects : this->objects) {
-		for (Vertex vertex : objects->getVertices()) {
-			center += glm::vec3(vertex.getX(), vertex.getY(), vertex.getZ());
-			f++;
+	for (const Object* object : objects) {
+		for (const Vertex& vertex : object->getVertices()) {
+			if (vertex.getX() < min.x) min.x = vertex.getX();
+			if (vertex.getY() < min.y) min.y = vertex.getY();
+			if (vertex.getZ() < min.z) min.z = vertex.getZ();
+
+			if (vertex.getX() > max.x) max.x = vertex.getX();
+			if (vertex.getY() > max.y) max.y = vertex.getY();
+			if (vertex.getZ() > max.z) max.z = vertex.getZ();
 		}
 	}
-	center /= f;
 
-	return (center);
+	return ((min + max) / 2.0f);
 }

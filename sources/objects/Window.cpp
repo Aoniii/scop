@@ -56,6 +56,7 @@ void Window::draw(Program *program) const {
 	this->camera->initCoord(program->getObjects());
 	Shader *shader = new Shader();
 
+	glm::vec3 center = program->calculateCenter();
 	while (!glfwWindowShouldClose(this->getWindow())) {
 		if (this->camera->getReset()) {
 			this->camera->setYaw(180.0f);
@@ -76,7 +77,6 @@ void Window::draw(Program *program) const {
 		glm::mat4 view = this->camera->getViewMatrix();
 		glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)this->width / (float)this->height, 0.1f, 1000.0f);
 		glm::mat4 model = glm::mat4(1.0f);
-		glm::vec3 center = program->calculateCenter();
 
 		model = glm::translate(model, center);
 		model = glm::rotate(model, glm::radians(this->camera->getAngleX()), glm::vec3(1.0f, 0.0f, 0.0f));
