@@ -98,7 +98,7 @@ void Window::draw(Program *program) const {
 			shader->setMat4("projection", projection);
 			shader->setVec3("viewPos", this->camera->getPos());
 			shader->setVec3("lightPos", this->camera->getPos());
-			shader->setInt("ourTexture", 0);
+			shader->setInt("texture1", 0);
 		} else {
 			shader->disable();
 		}

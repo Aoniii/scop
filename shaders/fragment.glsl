@@ -11,7 +11,7 @@ struct Material {
 uniform Material material;
 uniform vec3 lightPos;
 uniform vec3 viewPos;
-uniform sampler2D ourTexture;
+uniform sampler2D texture1;
 uniform bool isTexture;
 
 in vec3 FragPos;
@@ -36,7 +36,7 @@ void main() {
     vec3 result = ambient + diffuse + specular;
     
     if (isTexture)
-        FragColor = texture(ourTexture, TexCoord);
+        FragColor = texture(texture1, TexCoord);
     else
         FragColor = vec4(result, material.d);
 }
