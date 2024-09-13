@@ -75,6 +75,10 @@ void Program::setWindow(Window *window) {
 	this->window = window;
 }
 
+void Program::setTexture(unsigned int textureID) {
+	this->texture = textureID;
+}
+
 void Program::setFile(std::string filename) {
 	int i = filename.find_last_of('/');
 	this->name = filename.substr(i + 1, filename.find_last_of('.') - i - 1);

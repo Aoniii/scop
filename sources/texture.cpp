@@ -1,53 +1,66 @@
 #include "scop.hpp"
 
 unsigned char* loadBMP(const char* path, int& width, int& height) {
-	std::ifstream file(path, std::ios::binary);
-	if (!file.is_open()) {
-		std::cout << "[\e[31mERROR\e[39m] File BMP cannot be opened!" << std::endl;
-		return (nullptr);
-	}
+    std::ifstream file(path, std::ios::binary);
+    if (!file.is_open()) {
+        std::cout << "[\e[31mERROR\e[39m] File BMP cannot be opened!" << std::endl;
+        return (nullptr);
+    }
 
-	unsigned char header[54];
-	file.read(reinterpret_cast<char*>(header), 54);
+    unsigned char header[54];
+    file.read(reinterpret_cast<char*>(header), 54);
 
-	if (!file.good() || header[0] != 'B' || header[1] != 'M') {
-		std::cout << "[\e[31mERROR\e[39m] Invalid BMP file!" << std::endl;
-		file.close();
-		return (nullptr);
-	}
+    if (!file.good() || header[0] != 'B' || header[1] != 'M') {
+        std::cout << "[\e[31mERROR\e[39m] Invalid BMP file!" << std::endl;
+        file.close();
+        return (nullptr);
+    }
 
-	width = header[18] + (header[19] << 8) + (header[20] << 16) + (header[21] << 24);
-	height = header[22] + (header[23] << 8) + (header[24] << 16) + (header[25] << 24);
+    width = header[18] + (header[19] << 8) + (header[20] << 16) + (header[21] << 24);
+    height = header[22] + (header[23] << 8) + (header[24] << 16) + (header[25] << 24);
 
-	if (width < 0)
-		width = -width;
-	if (height < 0)
-		height = -height;
+    if (width < 0)
+        width = -width;
+    if (height < 0)
+        height = -height;
 
-	int imageSize = 3 * width * height;
-	unsigned char* data = new(std::nothrow) unsigned char[imageSize];
-	if (!data) {
-		std::cout << "[\e[31mERROR\e[39m] Memory allocation failed!" << std::endl;
-		file.close();
-		return (nullptr);
-	}
+    int imageSize = 3 * width * height;
+    unsigned char* data = new(std::nothrow) unsigned char[imageSize];
+    if (!data) {
+        std::cout << "[\e[31mERROR\e[39m] Memory allocation failed!" << std::endl;
+        file.close();
+        return (nullptr);
+    }
 
-	file.seekg(54);
-	file.read(reinterpret_cast<char*>(data), imageSize);
-	if (!file.good()) {
-		std::cout << "[\e[31mERROR\e[39m] Error reading BMP data!" << std::endl;
-		delete[] data;
-		file.close();
-		return (nullptr);
-	}
+    file.seekg(54);
+    file.read(reinterpret_cast<char*>(data), imageSize);
+    if (!file.good()) {
+        std::cout << "[\e[31mERROR\e[39m] Error reading BMP data!" << std::endl;
+        delete[] data;
+        file.close();
+        return (nullptr);
+    }
 
-	file.close();
+    file.close();
 
-	for (int i = 0; i < imageSize; i += 3)
-		std::swap(data[i], data[i + 2]);
+    unsigned char* flippedData = new(std::nothrow) unsigned char[imageSize];
+    if (!flippedData) {
+        std::cout << "[\e[31mERROR\e[39m] Memory allocation failed for flipped image!" << std::endl;
+        delete[] data;
+        return (nullptr);
+    }
 
-	return (data);
+    int rowSize = width * 3;
+    for (int i = 0; i < height; ++i)
+        memcpy(&flippedData[i * rowSize], &data[(height - 1 - i) * rowSize], rowSize);
+
+    for (int i = 0; i < imageSize; i += 3)
+        std::swap(flippedData[i], flippedData[i + 2]);
+
+    delete[] data;
+    return (flippedData);
 }
+
 
 unsigned int createTextureFromBMP(const char* path) {
 	int width, height;

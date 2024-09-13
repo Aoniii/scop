@@ -35,6 +35,7 @@ class Program {
 		void setObjects(std::vector<Object*> objects);
 		void setMaterials(std::vector<Material*> materials);
 		void setWindow(Window *window);
+		void setTexture(unsigned int textureID);
 
 		void setFile(std::string filename);
 		void addObject(Object *object);
