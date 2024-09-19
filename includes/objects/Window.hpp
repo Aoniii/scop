@@ -27,6 +27,7 @@ class Window {
 
 		void draw(Program *program) const;
 		void callback();
+		void imgui() const;
 };
 
 #endif

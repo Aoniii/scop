@@ -13,3 +13,11 @@ SRCS		+=	$(SRCS_DIR)/draw.cpp
 SRCS		+=	$(SRCS_DIR)/objects/Camera.cpp
 SRCS		+=	$(SRCS_DIR)/objects/Shader.cpp
 SRCS		+=	$(SRCS_DIR)/texture.cpp
+
+SRCS		+=	imgui/imgui.cpp
+SRCS		+=	imgui/imgui_demo.cpp
+SRCS		+=	imgui/imgui_draw.cpp
+SRCS		+=	imgui/imgui_tables.cpp
+SRCS		+=	imgui/imgui_widgets.cpp
+SRCS		+=	imgui/backends/imgui_impl_glfw.cpp
+SRCS		+=	imgui/backends/imgui_impl_opengl3.cpp

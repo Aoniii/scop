@@ -51,3 +51,7 @@ void Vertex::setZ(float z) {
 void Vertex::setW(float w) {
 	this->w = w;
 }
+
+glm::vec3 Vertex::getPos() const {
+	return (glm::vec3(x, y, z));
+}

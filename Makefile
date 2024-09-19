@@ -1,9 +1,8 @@
 -include ./configuration/Sources.mk
--include ./configuration/Includes.mk
 
 NAME		=	scop
 CC			=	c++
-CFLAGS		=	-Wall -Wextra -Werror -I$(INCLUDES_DIR) -I$(INCLUDES_DIR)/objects
+CFLAGS		=	-Wall -Wextra -Werror -Iincludes -Iincludes/objects -Iimgui -Iimgui/backends
 LDFLAGS		=	-lGL -lGLU -lglut -lGLEW -lglfw
 OBJS		=	$(SRCS:.cpp=.o)
 OBJS_DIR	=	objects

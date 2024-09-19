@@ -3,6 +3,9 @@
 Window::Window(): ptr(NULL), camera(NULL), width(0), height(0) {}
 
 Window::~Window() {
+	ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 	glfwDestroyWindow(this->ptr);
 	glfwTerminate();
 }
@@ -22,6 +25,14 @@ Window::Window(std::string title, const unsigned int width, const unsigned int h
 
 	this->camera = new Camera();
 	glfwMakeContextCurrent(this->getWindow());
+	glfwSwapInterval(1);
+
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    //ImGuiIO& io = ImGui::GetIO();
+    
+    ImGui_ImplGlfw_InitForOpenGL(this->getWindow(), true);
+    ImGui_ImplOpenGL3_Init("#version 130");
 
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK) {
@@ -99,9 +110,8 @@ void Window::draw(Program *program) const {
 			shader->setVec3("viewPos", this->camera->getPos());
 			shader->setVec3("lightPos", this->camera->getPos());
 			shader->setInt("texture1", 0);
-		} else {
+		} else
 			shader->disable();
-		}
 
 		if (this->camera->getType() == 1) {
 			drawPoint(program);
@@ -126,8 +136,9 @@ void Window::draw(Program *program) const {
 		if (this->camera->getRotate())
 			this->camera->addAngleY(0.25f);
 
-		glfwSwapBuffers(this->getWindow());
 		glfwPollEvents();
+		imgui();
+		glfwSwapBuffers(this->getWindow());
 	}
 }
 
@@ -219,4 +230,28 @@ void Window::callback() {
 			}
 		}
 	});
+}
+
+void Window::imgui() const {
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
+
+	ImGui::SetNextWindowPos(ImVec2(540, 10), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(250, 133), ImGuiCond_Once);
+	ImGui::SetNextWindowCollapsed(true, ImGuiCond_Once);
+	ImGui::Begin("Binds", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+	ImGui::Text("1 2 3 4 5 6: Display type");
+	ImGui::Text("Q W E A S D: Rotate objects");
+	ImGui::Text("R T Y F G H: Move camera");
+	ImGui::Text("Z X C V: Orient view");
+	ImGui::Text("B: Reset");
+	ImGui::Text("N: Automatic rotation");
+	ImGui::End();
+
+	ImGui::Render();
+	int display_w, display_h;
+	glfwGetFramebufferSize(this->getWindow(), &display_w, &display_h);
+	glViewport(0, 0, display_w, display_h);
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }

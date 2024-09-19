@@ -1,6 +1,8 @@
 #ifndef VERTEX_HPP
 #define VERTEX_HPP
 
+#include <glm/glm.hpp>
+
 class Vertex {
 	private:
 		float x;
@@ -26,6 +28,8 @@ class Vertex {
 		void setY(float y);
 		void setZ(float z);
 		void setW(float w);
+
+		glm::vec3 getPos() const;
 };
 
 #endif

@@ -94,20 +94,6 @@ void Object::setupBuffers() {
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 	glEnableVertexAttribArray(0);
 
-	if (this->textures.empty()) {
-		this->textures.resize(this->vertices.size());
-		for (size_t i = 0; i < this->vertices.size(); ++i) {
-			const Vertex& v = this->vertices[i];
-			this->textures[i] = TextureCoord((v.getX() + 1.0f) * 0.5f, (v.getY() + 1.0f) * 0.5f);
-		}
-	}
-
-	glGenBuffers(1, &this->VBO_textures);
-	glBindBuffer(GL_ARRAY_BUFFER, this->VBO_textures);
-	glBufferData(GL_ARRAY_BUFFER, this->textures.size() * sizeof(TextureCoord), this->textures.data(), GL_STATIC_DRAW);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(TextureCoord), (void*)0);
-	glEnableVertexAttribArray(1);
-
 	if (this->normals.empty()) {
 		this->normals.resize(this->vertices.size());
 
@@ -146,7 +132,21 @@ void Object::setupBuffers() {
 	glGenBuffers(1, &this->VBO_normals);
 	glBindBuffer(GL_ARRAY_BUFFER, this->VBO_normals);
 	glBufferData(GL_ARRAY_BUFFER, this->normals.size() * sizeof(Normal), this->normals.data(), GL_STATIC_DRAW);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Normal), (void*)0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Normal), (void*)0);
+	glEnableVertexAttribArray(1);
+
+	if (this->textures.empty()) {
+		this->textures.resize(this->vertices.size());
+		for (size_t i = 0; i < this->vertices.size(); i++) {
+			const Vertex& v = this->vertices[i];
+			this->textures[i] = TextureCoord(v.getZ() * 2.0f, v.getY() * 2.0f);
+		}
+	}
+
+	glGenBuffers(1, &this->VBO_textures);
+	glBindBuffer(GL_ARRAY_BUFFER, this->VBO_textures);
+	glBufferData(GL_ARRAY_BUFFER, this->textures.size() * sizeof(TextureCoord), this->textures.data(), GL_STATIC_DRAW);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(TextureCoord), (void*)0);
 	glEnableVertexAttribArray(2);
 
 	std::vector<GLuint> indices;
