@@ -63,7 +63,7 @@ Camera* Window::getCamera() {
 	return (this->camera);
 }
 
-void Window::draw(Program *program) const {
+void Window::draw(Program *program) {
 	this->camera->initCoord(program->getObjects());
 	Shader *shader = new Shader();
 	glm::vec3 center = program->calculateCenter();
@@ -82,6 +82,8 @@ void Window::draw(Program *program) const {
 			this->camera->setRotate(false);
 			this->camera->setType(4);
 		}
+
+		updateFPS();
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -137,7 +139,7 @@ void Window::draw(Program *program) const {
 			this->camera->addAngleY(0.25f);
 
 		glfwPollEvents();
-		imgui();
+		imgui(program);
 		glfwSwapBuffers(this->getWindow());
 	}
 }
@@ -232,13 +234,13 @@ void Window::callback() {
 	});
 }
 
-void Window::imgui() const {
+void Window::imgui(Program *program) {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
 	ImGui::SetNextWindowPos(ImVec2(540, 10), ImGuiCond_Once);
-	ImGui::SetNextWindowSize(ImVec2(250, 133), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(250, 135), ImGuiCond_Once);
 	ImGui::SetNextWindowCollapsed(true, ImGuiCond_Once);
 	ImGui::Begin("Binds", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 	ImGui::Text("1 2 3 4 5 6: Display type");
@@ -249,9 +251,27 @@ void Window::imgui() const {
 	ImGui::Text("N: Automatic rotation");
 	ImGui::End();
 
+	ImGui::SetNextWindowPos(ImVec2(540, 655), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(250, 135), ImGuiCond_Once);
+	ImGui::Begin("Informations", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+	ImGui::Text("FPS: %.1f", this->fps);
+	ImGui::Text("Vertex: %li", program->vertexSize());
+	ImGui::Text("Faces: %li", program->faceSize());
+	ImGui::Text("Camera: X:%.1f, Y:%.1f, Z:%.1f", this->camera->getPos().x, this->camera->getPos().y, this->camera->getPos().z);
+	ImGui::Text("Yaw: %.f", this->camera->getYaw());
+	ImGui::Text("Pitch: %.f", this->camera->getPitch());
+	ImGui::End();
+
 	ImGui::Render();
 	int display_w, display_h;
 	glfwGetFramebufferSize(this->getWindow(), &display_w, &display_h);
 	glViewport(0, 0, display_w, display_h);
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void Window::updateFPS() {
+	double currentTime = glfwGetTime();
+	double deltaTime = currentTime - lastTime;
+	fps = 1.0f / deltaTime;
+	lastTime = currentTime;
 }

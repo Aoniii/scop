@@ -43,6 +43,9 @@ class Program {
 		void loadTexture(const char* path);
 
 		glm::vec3 calculateCenter() const;
+
+		size_t vertexSize() const;
+		size_t faceSize() const;
 };
 
 #endif

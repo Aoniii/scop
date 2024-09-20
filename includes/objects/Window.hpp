@@ -14,6 +14,8 @@ class Window {
 		Camera *camera;
 		unsigned int width;
 		unsigned int height;
+		double lastTime = 0.0;
+		float fps = 0.0f;
 
 	public:
 		Window();
@@ -25,9 +27,10 @@ class Window {
 		GLFWwindow*	getWindow() const;
 		Camera* getCamera();
 
-		void draw(Program *program) const;
+		void draw(Program *program);
 		void callback();
-		void imgui() const;
+		void imgui(Program *program);
+		void updateFPS();
 };
 
 #endif

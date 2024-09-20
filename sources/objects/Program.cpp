@@ -114,3 +114,17 @@ glm::vec3 Program::calculateCenter() const {
 
 	return ((min + max) / 2.0f);
 }
+
+size_t Program::vertexSize() const {
+	size_t i = 0;
+	for (const Object* object : objects)
+		i += object->getVertices().size();
+	return (i);
+}
+
+size_t Program::faceSize() const {
+	size_t i = 0;
+	for (const Object* object : objects)
+		i += object->getFaces().size();
+	return (i);
+}
