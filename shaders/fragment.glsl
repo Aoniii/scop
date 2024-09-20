@@ -14,6 +14,9 @@ uniform vec3 lightColor;
 uniform vec3 viewPos;
 uniform sampler2D texture1;
 uniform bool isTexture;
+uniform bool isGradient;
+uniform vec3 gradientColor;
+uniform float gradientFactor;
 
 in vec3 FragPos;
 in vec3 Normal;
@@ -22,7 +25,7 @@ in vec2 TexCoord;
 out vec4 FragColor;
 
 void main() {
-    vec3 ambient = material.Ka * lightColor;
+    vec3 ambient = material.Ka;
 
     vec3 norm = normalize(Normal);
     vec3 lightDir = normalize(lightPos - FragPos);
@@ -35,6 +38,11 @@ void main() {
     vec3 specular = spec * material.Ks * lightColor;
 
     vec3 result = ambient + diffuse + specular;
+
+    if (isGradient) {
+        vec3 mixedColor = mix(result, gradientColor, gradientFactor);
+        result = mixedColor;
+    }
 
     if (isTexture)
         FragColor = texture(texture1, TexCoord);

@@ -21,7 +21,7 @@ class Camera {
 		float angleX = 0.0f;
 		float angleY = 0.0f;
 		float angleZ = 0.0f;
-		unsigned int type = 4;
+		unsigned int type = 5;
 		bool rotate = false;
 		bool reset = false;
 

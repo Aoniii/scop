@@ -88,7 +88,7 @@ void Window::draw(Program *program) {
 			this->camera->initCoord(program->getObjects());
 			this->camera->setReset(0.0f);
 			this->camera->setRotate(false);
-			this->camera->setType(4);
+			this->camera->setType(5);
 		}
 
 		updateFPS();
@@ -112,7 +112,7 @@ void Window::draw(Program *program) {
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixf(&mvp[0][0]);
 
-		if (this->camera->getType() == 4 || this->camera->getType() == 6) {
+		if (this->camera->getType() > 4) {
 			shader->use();
 			shader->setMat4("model", model);
 			shader->setMat4("view", view);
@@ -120,6 +120,8 @@ void Window::draw(Program *program) {
 			shader->setVec3("viewPos", this->camera->getPos());
 			shader->setVec3("lightPos", this->camera->getLight());
 			shader->setVec3("lightColor", this->camera->getLightColor()[0], this->camera->getLightColor()[1], this->camera->getLightColor()[2]);
+			shader->setVec3("gradientColor", program->getGradientColor()[0], program->getGradientColor()[1], program->getGradientColor()[2]);
+			shader->setFloat("gradientFactor", 0.5f);
 			shader->setInt("texture1", 0);
 		} else
 			shader->disable();
@@ -132,14 +134,21 @@ void Window::draw(Program *program) {
 			for (Object* objects : program->getObjects())
 				objects->draw();
 		} else if (this->camera->getType() == 4) {
-			shader->setBool("isTexture", false);
-			for (Object* objects : program->getObjects())
-				objects->drawWithMaterial(program, shader);
-		} else if (this->camera->getType() == 5) {
 			for (Object* objects : program->getObjects())
 				objects->drawGreyMode();
+		} else if (this->camera->getType() == 5) {
+			shader->setBool("isTexture", false);
+			shader->setBool("isGradient", false);
+			for (Object* objects : program->getObjects())
+				objects->drawWithMaterial(program, shader);
 		} else if (this->camera->getType() == 6) {
 			shader->setBool("isTexture", true);
+			shader->setBool("isGradient", false);
+			for (Object* objects : program->getObjects())
+				objects->draw();
+		} else if (this->camera->getType() == 7) {
+			shader->setBool("isTexture", false);
+			shader->setBool("isGradient", true);
 			for (Object* objects : program->getObjects())
 				objects->draw();
 		}
@@ -238,6 +247,9 @@ void Window::callback() {
 				case GLFW_KEY_6:
 					win->camera->setType(6);
 					break;
+				case GLFW_KEY_7:
+					win->camera->setType(7);
+					break;
 			}
 		}
 	});
@@ -252,7 +264,7 @@ void Window::imgui(Program *program) {
 	ImGui::SetNextWindowSize(ImVec2(250, 135), ImGuiCond_Once);
 	ImGui::SetNextWindowCollapsed(true, ImGuiCond_Once);
 	ImGui::Begin("Binds", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
-	ImGui::Text("1 2 3 4 5 6: Display type");
+	ImGui::Text("1 2 3 4 5 6 7: Display type");
 	ImGui::Text("Q W E A S D: Rotate objects");
 	ImGui::Text("R T Y F G H: Move camera");
 	ImGui::Text("Z X C V: Orient view");
@@ -273,14 +285,17 @@ void Window::imgui(Program *program) {
 
 	float* lightColor = this->camera->getLightColor();
 	glm::vec3 light = this->camera->getLight();
+	float* gradientColor = program->getGradientColor();
 	ImGui::SetNextWindowPos(ImVec2(10, 10), ImGuiCond_Once);
 	ImGui::SetNextWindowSize(ImVec2(350, 100), ImGuiCond_Once);
 	ImGui::SetNextWindowCollapsed(true, ImGuiCond_Once);
 	ImGui::Begin("Options", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 	ImGui::ColorEdit3("Light Color", lightColor);
     ImGui::DragFloat3("Light Position", glm::value_ptr(light), 0.1f);
+	ImGui::ColorEdit3("Gradient Color", gradientColor);
 	this->camera->setLightColor(lightColor);
     this->camera->setLight(light);
+	program->setGradientColor(gradientColor);
 	ImGui::End();
 
 	ImGui::Render();

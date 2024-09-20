@@ -59,6 +59,10 @@ unsigned int Program::getTexture() const {
 	return (this->texture);
 }
 
+float *Program::getGradientColor() const {
+	return ((float*)this->gradientColor);
+}
+
 void Program::setName(std::string name) {
 	this->name = name;
 }
@@ -82,6 +86,12 @@ void Program::setTexture(unsigned int textureID) {
 void Program::setFile(std::string filename) {
 	int i = filename.find_last_of('/');
 	this->name = filename.substr(i + 1, filename.find_last_of('.') - i - 1);
+}
+
+void Program::setGradientColor(float color[3]) {
+	this->gradientColor[0] = color[0];
+	this->gradientColor[1] = color[1];
+	this->gradientColor[2] = color[2];
 }
 
 void Program::addObject(Object *object) {
