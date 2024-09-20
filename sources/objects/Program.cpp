@@ -59,8 +59,8 @@ unsigned int Program::getTexture() const {
 	return (this->texture);
 }
 
-float *Program::getGradientColor() const {
-	return ((float*)this->gradientColor);
+float *Program::getColor() const {
+	return ((float*)this->color);
 }
 
 void Program::setName(std::string name) {
@@ -88,10 +88,10 @@ void Program::setFile(std::string filename) {
 	this->name = filename.substr(i + 1, filename.find_last_of('.') - i - 1);
 }
 
-void Program::setGradientColor(float color[3]) {
-	this->gradientColor[0] = color[0];
-	this->gradientColor[1] = color[1];
-	this->gradientColor[2] = color[2];
+void Program::setColor(float color[3]) {
+	this->color[0] = color[0];
+	this->color[1] = color[1];
+	this->color[2] = color[2];
 }
 
 void Program::addObject(Object *object) {

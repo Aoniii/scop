@@ -120,7 +120,7 @@ void Window::draw(Program *program) {
 			shader->setVec3("viewPos", this->camera->getPos());
 			shader->setVec3("lightPos", this->camera->getLight());
 			shader->setVec3("lightColor", this->camera->getLightColor()[0], this->camera->getLightColor()[1], this->camera->getLightColor()[2]);
-			shader->setVec3("gradientColor", program->getGradientColor()[0], program->getGradientColor()[1], program->getGradientColor()[2]);
+			shader->setVec3("gradientColor", program->getColor()[0], program->getColor()[1], program->getColor()[2]);
 			shader->setFloat("gradientFactor", 0.5f);
 			shader->setInt("texture1", 0);
 		} else
@@ -138,17 +138,17 @@ void Window::draw(Program *program) {
 				objects->drawGreyMode();
 		} else if (this->camera->getType() == 5) {
 			shader->setBool("isTexture", false);
-			shader->setBool("isGradient", false);
+			shader->setBool("isColor", false);
 			for (Object* objects : program->getObjects())
 				objects->drawWithMaterial(program, shader);
 		} else if (this->camera->getType() == 6) {
 			shader->setBool("isTexture", true);
-			shader->setBool("isGradient", false);
+			shader->setBool("isColor", false);
 			for (Object* objects : program->getObjects())
 				objects->draw();
 		} else if (this->camera->getType() == 7) {
 			shader->setBool("isTexture", false);
-			shader->setBool("isGradient", true);
+			shader->setBool("isColor", true);
 			for (Object* objects : program->getObjects())
 				objects->draw();
 		}
@@ -285,17 +285,17 @@ void Window::imgui(Program *program) {
 
 	float* lightColor = this->camera->getLightColor();
 	glm::vec3 light = this->camera->getLight();
-	float* gradientColor = program->getGradientColor();
+	float* color = program->getColor();
 	ImGui::SetNextWindowPos(ImVec2(10, 10), ImGuiCond_Once);
 	ImGui::SetNextWindowSize(ImVec2(350, 100), ImGuiCond_Once);
 	ImGui::SetNextWindowCollapsed(true, ImGuiCond_Once);
 	ImGui::Begin("Options", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 	ImGui::ColorEdit3("Light Color", lightColor);
     ImGui::DragFloat3("Light Position", glm::value_ptr(light), 0.1f);
-	ImGui::ColorEdit3("Gradient Color", gradientColor);
+	ImGui::ColorEdit3("Gradient Color", color);
 	this->camera->setLightColor(lightColor);
     this->camera->setLight(light);
-	program->setGradientColor(gradientColor);
+	program->setColor(color);
 	ImGui::End();
 
 	ImGui::Render();

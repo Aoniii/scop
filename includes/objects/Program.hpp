@@ -16,7 +16,7 @@ class Program {
 		Window *window;
 		Material *blank;
 		unsigned int texture;
-		float gradientColor[3] = {1.0f, 1.0f, 1.0f};
+		float color[3] = {1.0f, 1.0f, 1.0f};
 
 	public:
 		Program();
@@ -31,14 +31,14 @@ class Program {
 		Material *getMaterial(std::string name) const;
 		Material *getBlank() const;
 		unsigned int getTexture() const;
-		float *getGradientColor() const;
+		float *getColor() const;
 
 		void setName(std::string name);
 		void setObjects(std::vector<Object*> objects);
 		void setMaterials(std::vector<Material*> materials);
 		void setWindow(Window *window);
 		void setTexture(unsigned int textureID);
-		void setGradientColor(float color[3]);
+		void setColor(float color[3]);
 
 		void setFile(std::string filename);
 		void addObject(Object *object);

@@ -14,7 +14,7 @@ uniform vec3 lightColor;
 uniform vec3 viewPos;
 uniform sampler2D texture1;
 uniform bool isTexture;
-uniform bool isGradient;
+uniform bool isColor;
 uniform vec3 gradientColor;
 uniform float gradientFactor;
 
@@ -39,7 +39,7 @@ void main() {
 
     vec3 result = ambient + diffuse + specular;
 
-    if (isGradient) {
+    if (isColor) {
         vec3 mixedColor = mix(result, gradientColor, gradientFactor);
         result = mixedColor;
     }
