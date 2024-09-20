@@ -26,6 +26,8 @@ class Window {
 
 		GLFWwindow*	getWindow() const;
 		Camera* getCamera();
+		unsigned int getWidth() const;
+		unsigned int getHeight() const;
 
 		void draw(Program *program);
 		void callback();

@@ -41,6 +41,14 @@ glm::vec3 Camera::getWorldUp() const {
 	return (this->worldUp);
 }
 
+glm::vec3 Camera::getLight() const {
+	return (this->light);
+}
+
+float *Camera::getLightColor() const {
+	return ((float*)this->lightColor);
+}
+
 float Camera::getYaw() const {
 	return (this->yaw);
 }
@@ -91,6 +99,16 @@ void Camera::setRight(glm::vec3 right) {
 
 void Camera::setWorldUp(glm::vec3 worldUp) {
 	this->worldUp = worldUp;
+}
+
+void Camera::setLight(glm::vec3 light) {
+	this->light = light;
+}
+
+void Camera::setLightColor(float color[3]) {
+	this->lightColor[0] = color[0];
+	this->lightColor[1] = color[1];
+	this->lightColor[2] = color[2];
 }
 
 void Camera::setYaw(float yaw) {
@@ -220,5 +238,6 @@ void Camera::initCoord(std::vector<Object*> objects) {
 	this->pos.x = center.x + maxDimension * 1.5f;;
 	this->pos.y = center.y;
 	this->pos.z = center.z;
+	this->light = this->pos;
 	updateCameraVectors();
 }

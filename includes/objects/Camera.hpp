@@ -14,6 +14,8 @@ class Camera {
 		glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 		glm::vec3 right = glm::vec3(0.0f, 0.0f, 0.0f);
 		glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
+		glm::vec3 light = glm::vec3(0.0f, 0.0f, 0.0f);
+		float lightColor[3] = {1.0f, 1.0f, 1.0f};
 		float yaw = 180.0f;
 		float pitch = 0.0f;
 		float angleX = 0.0f;
@@ -34,6 +36,8 @@ class Camera {
 		glm::vec3 getUp() const;
 		glm::vec3 getRight() const;
 		glm::vec3 getWorldUp() const;
+		glm::vec3 getLight() const;
+		float *getLightColor() const;
 		float getYaw() const;
 		float getPitch() const;
 		float getAngleX() const;
@@ -48,6 +52,8 @@ class Camera {
 		void setUp(glm::vec3 up);
 		void setRight(glm::vec3 right);
 		void setWorldUp(glm::vec3 worldUp);
+		void setLight(glm::vec3 light);
+		void setLightColor(float color[3]);
 		void setYaw(float yaw);
 		void setPitch(float pitch);
 		void setAngleX(float f);

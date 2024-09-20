@@ -18,7 +18,7 @@ int main(int ac, char** av) {
 		return (0);
 	}
 
-	program->setWindow(new Window(program->getName(), 800, 800));
+	program->setWindow(new Window(program->getName(), 1000, 800));
 	program->loadTexture("./ressources/chaton.bmp");
 	for (Object* objects : program->getObjects()) objects->setupBuffers();
 	program->getWindow()->draw(program);
