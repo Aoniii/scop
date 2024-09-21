@@ -89,6 +89,9 @@ void Window::draw(Program *program) {
 			this->camera->setReset(0.0f);
 			this->camera->setRotate(false);
 			this->camera->setType(5);
+			float reset[3] = {1.0f, 1.0f, 1.0f};
+			this->camera->setLightColor(reset);
+			program->setColor(reset);
 		}
 
 		updateFPS();
